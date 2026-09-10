@@ -1,191 +1,111 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
+
+const LOGO =
+  "https://res.cloudinary.com/dca2lhkw2/image/upload/q_auto,f_auto/v1781987890/logo_xt9ve6.png";
 
 const services = [
   {
     number: "01",
-    icon: "language",
     title: "Website Development",
-    short: "Premium websites built for speed, trust, and conversions.",
+    short: "Fast, responsive & modern websites",
     description:
-      "High-performance websites that load fast, look stunning, and convert visitors into loyal customers. Every site is built responsive-first with clean semantics and SEO best practices.",
+      "We build modern websites that are fast, responsive, accessible, and designed to turn visitors into customers.",
     features: [
-      {
-        title: "Professional Portfolios",
-        text: "Showcase your work with elegant, image-rich portfolios that leave a lasting impression.",
-      },
-      {
-        title: "High-Conversion Landing Pages",
-        text: "Purpose-built pages designed around a single goal: conversion.",
-      },
-      {
-        title: "Multi-page Business Sites",
-        text: "Complete websites with multiple service lines, team pages, and contact flows.",
-      },
-      {
-        title: "Blog & Content Platforms",
-        text: "Scalable content management with rich editing, categories, and reader analytics.",
-      },
+      "Responsive design",
+      "SEO-friendly structure",
+      "Fast loading performance",
+      "Modern UI/UX",
+      "Cross-browser compatibility",
+      "Easy content management",
     ],
-    stack: ["Next.js", "React", "Tailwind CSS"],
+    stack: ["React", "Next.js", "Tailwind CSS", "JavaScript"],
+    icon: "language",
   },
   {
     number: "02",
-    icon: "apps",
     title: "Web App Development",
-    short: "Scalable applications designed around your business.",
+    short: "Powerful applications for your business",
     description:
-      "Full-stack web applications engineered for scale, security, and seamless user experiences. From real-time collaboration tools to complex data platforms.",
+      "From dashboards to complete business platforms, we create scalable web applications tailored to your workflow.",
     features: [
-      {
-        title: "Custom SaaS Solutions",
-        text: "Multi-tenant architecture with subscription billing and role-based access control.",
-      },
-      {
-        title: "E-commerce Marketplaces",
-        text: "Product catalogs, shopping carts, payment gateways, and vendor dashboards.",
-      },
-      {
-        title: "Dynamic User Portals",
-        text: "Personalized dashboards with real-time data, notifications, and file uploads.",
-      },
-      {
-        title: "Social Networking Apps",
-        text: "Feeds, messaging, friend systems, and push notifications at scale.",
-      },
+      "Custom web applications",
+      "Authentication & authorization",
+      "API integrations",
+      "Real-time functionality",
+      "Scalable architecture",
+      "Responsive interfaces",
     ],
-    stack: ["Node.js", "Supabase", "Firebase"],
+    stack: ["React", "Node.js", "Express", "MongoDB"],
+    icon: "web",
   },
   {
     number: "03",
-    icon: "dashboard",
     title: "Admin Panels & Dashboards",
-    short: "Clear, powerful interfaces for managing your operations.",
+    short: "Clear data. Better decisions.",
     description:
-      "Powerful back-office interfaces that give you complete control over your operations with beautiful data visualization and intuitive workflows.",
+      "We create intuitive admin panels and dashboards that turn complex data into simple, actionable insights.",
     features: [
-      {
-        title: "Inventory Management",
-        text: "Track stock levels, manage suppliers, automate reorder points, and generate reports.",
-      },
-      {
-        title: "CRM Integration",
-        text: "Centralized customer data with interaction history, lead scoring, and pipeline tracking.",
-      },
-      {
-        title: "Real-time Data Visualization",
-        text: "Interactive charts, graphs, and heatmaps powered by real-time technologies.",
-      },
-      {
-        title: "User Role Control",
-        text: "Granular permission systems with customizable roles and audit logs.",
-      },
+      "Interactive analytics",
+      "Data visualization",
+      "User management",
+      "Role-based access",
+      "Reports & statistics",
+      "Responsive dashboard UI",
     ],
-    stack: ["React", "Charts", "WebSocket"],
+    stack: ["React", "JavaScript", "Node.js", "MongoDB"],
+    icon: "dashboard",
   },
   {
     number: "04",
-    icon: "database",
     title: "Database Solutions",
-    short: "Reliable data architecture built to grow with you.",
+    short: "Secure & organized data systems",
     description:
-      "Robust data architecture and management systems designed for reliability, speed, and growth. We work with both relational and NoSQL databases.",
+      "Reliable database solutions designed to keep your business data secure, structured, accessible, and scalable.",
     features: [
-      {
-        title: "Database Architecture",
-        text: "Schema design, indexing strategies, query optimization, and data modeling.",
-      },
-      {
-        title: "Real-time Sync",
-        text: "Live data synchronization across clients with offline support.",
-      },
-      {
-        title: "Relational Systems",
-        text: "PostgreSQL-based solutions with security and auto-generated APIs.",
-      },
-      {
-        title: "Data Migration & API Design",
-        text: "Seamless migration from legacy systems with RESTful and GraphQL APIs.",
-      },
+      "Database architecture",
+      "Data modeling",
+      "API integration",
+      "CRUD systems",
+      "Performance optimization",
+      "Secure data handling",
     ],
-    stack: ["PostgreSQL", "Firestore", "REST API"],
+    stack: ["MongoDB", "Node.js", "Express", "REST API"],
+    icon: "database",
   },
   {
     number: "05",
-    icon: "palette",
     title: "Graphic Designing",
-    short: "Visual identities that make your brand memorable.",
+    short: "Visuals that build your identity",
     description:
-      "Eye-catching visual designs that communicate your brand story, engage your audience, and elevate your business presence across every medium.",
+      "We design clean and memorable visual experiences that help businesses communicate their brand clearly.",
     features: [
-      {
-        title: "Brand Identity & Logo Design",
-        text: "Memorable logos, brand guidelines, color palettes, and typography systems.",
-      },
-      {
-        title: "UI/UX Design",
-        text: "User-centric interfaces with wireframes, prototypes, and pixel-perfect mockups.",
-      },
-      {
-        title: "Social Media Graphics",
-        text: "Scroll-stopping posts, stories, banners, and ad creatives for every platform.",
-      },
-      {
-        title: "Print & Marketing Collateral",
-        text: "Brochures, flyers, business cards, and packaging that leave a lasting impression.",
-      },
+      "Social media designs",
+      "Brand identity",
+      "Marketing graphics",
+      "Post & banner designs",
+      "Presentation designs",
+      "Creative visual concepts",
     ],
-    stack: ["Figma", "Adobe CC", "Branding"],
+    stack: ["Figma", "Canva", "Photoshop", "Illustrator"],
+    icon: "palette",
   },
   {
     number: "06",
-    icon: "settings_backup_restore",
     title: "Maintenance & Support",
-    short: "Continuous care to keep your digital product performing.",
+    short: "Keep your digital products running",
     description:
-      "Ongoing care to keep your digital products secure, fast, and up-to-date. We handle the technical heavy lifting so you can focus on your business.",
+      "Continuous maintenance and technical support to keep your website or application secure, updated, and reliable.",
     features: [
-      {
-        title: "Security Updates & Audits",
-        text: "Regular vulnerability scanning, dependency updates, and SSL management.",
-      },
-      {
-        title: "Performance Monitoring",
-        text: "Uptime monitoring, load testing, CDN optimization, and query profiling.",
-      },
-      {
-        title: "Feature Upgrades",
-        text: "Add new features, integrations, and improvements as your business evolves.",
-      },
-      {
-        title: "Hosting Management",
-        text: "Server configuration, scaling, backups, disaster recovery, and DNS management.",
-      },
+      "Bug fixes",
+      "Performance improvements",
+      "Security updates",
+      "Content updates",
+      "Technical support",
+      "Regular monitoring",
     ],
-    stack: ["CI/CD", "Monitoring", "SSL"],
-  },
-];
-
-const benefits = [
-  {
-    icon: "devices",
-    title: "Responsive First",
-    text: "Every experience is designed to work beautifully across every screen.",
-  },
-  {
-    icon: "speed",
-    title: "Fast Performance",
-    text: "Optimized builds that keep loading times low and experiences smooth.",
-  },
-  {
-    icon: "search_check",
-    title: "SEO Friendly",
-    text: "Clean structure and best practices that help your business get discovered.",
-  },
-  {
-    icon: "lock",
-    title: "Secure & Scalable",
-    text: "Reliable foundations built with security and future growth in mind.",
+    stack: ["React", "Node.js", "MongoDB", "Git"],
+    icon: "support_agent",
   },
 ];
 
@@ -198,330 +118,780 @@ function Icon({ name, className = "" }) {
 }
 
 function Reveal({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      { threshold: 0.08 }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
-      className={`animate-[fadeUp_0.7s_ease-out_both] ${className}`}
-      style={{ animationDelay: `${delay}ms` }}
+      ref={ref}
+      className={`${className} transition-all duration-700 ease-out ${
+        visible
+          ? "translate-y-0 opacity-100"
+          : "translate-y-6 opacity-0"
+      }`}
+      style={{
+        transitionDelay: `${delay}ms`,
+      }}
     >
       {children}
     </div>
   );
 }
 
-export default function Services() {
-  const [activeService, setActiveService] = useState(0);
-  const active = services[activeService];
+function DashboardPreview() {
+  const bars = [35, 52, 43, 67, 54, 78, 63, 91, 74, 96];
 
   return (
-    <main className="overflow-hidden bg-white text-slate-900">
-      <section className="relative border-b border-slate-200 bg-slate-50">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(37,99,235,0.10),transparent_30%)]" />
-
-        <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(37,99,235,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(37,99,235,0.045)_1px,transparent_1px)] [background-size:52px_52px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
-
-        <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-28 sm:px-8 lg:px-10 lg:pb-28 lg:pt-36">
-          <Reveal>
-            <div className="max-w-4xl">
-              <div className="mb-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-blue-600">
-                <span className="h-0.5 w-6 rounded-full bg-blue-600" />
-                What We Build
-              </div>
-
-              <h1 className="text-5xl font-extrabold leading-[0.98] tracking-[-0.055em] text-slate-950 sm:text-6xl lg:text-7xl">
-                Our Services
-              </h1>
-
-              <p className="mt-7 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
-                Explore what we build. Pick a service to see how we can help
-                turn your ideas into reliable digital experiences.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mt-12 flex flex-wrap gap-3">
-              {services.map((service, index) => (
-                <button
-                  key={service.number}
-                  onClick={() => {
-                    setActiveService(index);
-                    document
-                      .getElementById("service-details")
-                      ?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                  }}
-                  className={`group flex items-center gap-3 rounded-full border px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                    activeService === index
-                      ? "border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-600"
-                  }`}
-                >
-                  <span
-                    className={`font-mono text-[10px] ${
-                      activeService === index
-                        ? "text-blue-100"
-                        : "text-slate-400"
-                    }`}
-                  >
-                    {service.number}
-                  </span>
-
-                  {service.title}
-                </button>
-              ))}
-            </div>
-          </Reveal>
+    <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div>
+          <div className="h-2 w-20 rounded bg-slate-300" />
+          <div className="mt-2 h-1.5 w-12 rounded bg-slate-200" />
         </div>
-      </section>
 
-      <section className="border-b border-slate-200 bg-white py-16 sm:py-20">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px overflow-hidden rounded-3xl border border-slate-200 bg-slate-200 px-0 sm:grid-cols-4 lg:mx-10 lg:max-w-none xl:mx-auto xl:max-w-7xl">
-          {benefits.map((benefit, index) => (
-            <Reveal key={benefit.title} delay={index * 80}>
-              <div className="h-full bg-white p-6 sm:p-7">
-                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                  <Icon name={benefit.icon} className="text-[21px]" />
-                </div>
+        <div className="flex items-center gap-1.5">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+          <span className="text-[10px] font-medium text-slate-500">
+            Live
+          </span>
+        </div>
+      </div>
 
-                <h3 className="text-sm font-bold text-slate-900">
-                  {benefit.title}
-                </h3>
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        {[
+          ["Revenue", "$24.8K"],
+          ["Users", "12.4K"],
+          ["Orders", "1,284"],
+        ].map(([title, value], index) => (
+          <div
+            key={title}
+            className="animate-[cardIn_.6s_ease-out_both] rounded-xl border border-slate-200 bg-white p-3"
+            style={{
+              animationDelay: `${index * 100}ms`,
+            }}
+          >
+            <p className="text-[9px] text-slate-400">{title}</p>
 
-                <p className="mt-2 text-xs leading-5 text-slate-500">
-                  {benefit.text}
-                </p>
-              </div>
-            </Reveal>
+            <p className="mt-1 text-xs font-bold text-slate-800">
+              {value}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-3 rounded-xl border border-slate-200 bg-white p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-[10px] text-slate-400">
+              Performance
+            </p>
+
+            <p className="mt-1 text-sm font-bold text-slate-800">
+              +28.4%
+            </p>
+          </div>
+
+          <Icon
+            name="trending_up"
+            className="text-blue-600"
+          />
+        </div>
+
+        <div className="mt-5 flex h-24 items-end gap-1.5">
+          {bars.map((height, index) => (
+            <div
+              key={index}
+              className="flex-1 overflow-hidden rounded-t bg-blue-100"
+            >
+              <div
+                className="h-full origin-bottom animate-[barIn_.8s_ease-out_both] rounded-t bg-blue-500"
+                style={{
+                  height: `${height}%`,
+                  animationDelay: `${index * 70}ms`,
+                }}
+              />
+            </div>
           ))}
         </div>
-      </section>
+      </div>
+    </div>
+  );
+}
 
-      <section
-        id="service-details"
-        className="scroll-mt-10 bg-slate-50 py-20 sm:py-24 lg:py-28"
-      >
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <Reveal>
-            <div className="mb-12 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-              <div>
-                <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-blue-600">
-                  <span className="h-0.5 w-6 rounded-full bg-blue-600" />
-                  Our Expertise
-                </div>
+export default function Services() {
+  const [active, setActive] = useState(services[0]);
+  const [menu, setMenu] = useState(false);
 
-                <h2 className="max-w-3xl text-3xl font-extrabold tracking-[-0.04em] text-slate-950 sm:text-4xl lg:text-5xl">
-                  Digital solutions crafted for impact.
-                </h2>
-              </div>
-
-              <p className="max-w-md text-sm leading-6 text-slate-500">
-                Select any service to explore the capabilities and technologies
-                we bring to your project.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-            <Reveal>
-              <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
-                {services.map((service, index) => (
-                  <button
-                    key={service.number}
-                    onClick={() => setActiveService(index)}
-                    className={`group flex w-full items-center gap-4 rounded-2xl p-4 text-left transition-all duration-300 ${
-                      activeService === index
-                        ? "bg-blue-50"
-                        : "hover:bg-slate-50"
-                    }`}
-                  >
-                    <span
-                      className={`font-mono text-xs font-bold ${
-                        activeService === index
-                          ? "text-blue-600"
-                          : "text-slate-400"
-                      }`}
-                    >
-                      {service.number}
-                    </span>
-
-                    <span
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition ${
-                        activeService === index
-                          ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
-                          : "bg-slate-100 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600"
-                      }`}
-                    >
-                      <Icon name={service.icon} className="text-[20px]" />
-                    </span>
-
-                    <span className="min-w-0 flex-1">
-                      <span
-                        className={`block truncate text-sm font-bold ${
-                          activeService === index
-                            ? "text-blue-700"
-                            : "text-slate-800"
-                        }`}
-                      >
-                        {service.title}
-                      </span>
-
-                      <span className="mt-0.5 block truncate text-[11px] text-slate-400">
-                        {service.short}
-                      </span>
-                    </span>
-
-                    <Icon
-                      name="arrow_forward"
-                      className={`text-[17px] transition-transform ${
-                        activeService === index
-                          ? "translate-x-0 text-blue-600"
-                          : "-translate-x-1 text-slate-300 group-hover:translate-x-0"
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal delay={100}>
-              <article
-                key={active.number}
-                className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:p-11"
-              >
-                <div className="flex flex-col gap-7 border-b border-slate-200 pb-8 sm:flex-row sm:items-start">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-                    <Icon name={active.icon} className="text-[29px]" />
-                  </div>
-
-                  <div>
-                    <div className="mb-2 font-mono text-xs font-bold tracking-widest text-blue-600">
-                      SERVICE {active.number}
-                    </div>
-
-                    <h3 className="text-2xl font-extrabold tracking-[-0.035em] text-slate-950 sm:text-3xl">
-                      {active.title}
-                    </h3>
-
-                    <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-500 sm:text-base">
-                      {active.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid gap-0 sm:grid-cols-2">
-                  {active.features.map((feature, index) => (
-                    <div
-                      key={feature.title}
-                      className={`flex gap-4 py-7 ${
-                        index < 2
-                          ? "border-b border-slate-200"
-                          : "sm:border-b-0"
-                      } ${index % 2 === 0 ? "sm:border-r sm:border-slate-200 sm:pr-8" : "sm:pl-8"}`}
-                    >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                        <Icon name="check" className="text-[16px] font-bold" />
-                      </div>
-
-                      <div>
-                        <h4 className="text-sm font-bold text-slate-900">
-                          {feature.title}
-                        </h4>
-
-                        <p className="mt-1.5 text-xs leading-6 text-slate-500">
-                          {feature.text}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {active.stack.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 font-mono text-[10px] font-semibold text-slate-500"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <Reveal>
-            <div className="grid overflow-hidden rounded-[28px] border border-blue-100 bg-blue-600 lg:grid-cols-[1fr_auto]">
-              <div className="relative p-8 sm:p-12 lg:p-16">
-                <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full border border-white/10" />
-                <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full border border-white/10" />
-
-                <div className="relative">
-                  <div className="mb-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-blue-100">
-                    <span className="h-0.5 w-6 rounded-full bg-blue-200" />
-                    Start Building
-                  </div>
-
-                  <h2 className="max-w-3xl text-4xl font-extrabold leading-none tracking-[-0.045em] text-white sm:text-5xl lg:text-6xl">
-                    Have a project in mind?
-                  </h2>
-
-                  <p className="mt-6 max-w-2xl text-sm leading-7 text-blue-100 sm:text-base">
-                    Tell us what you're building and let's turn your idea into
-                    a digital experience that actually performs.
-                  </p>
-
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <a
-                      href="https://wa.me/923323265152"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-blue-600 transition hover:-translate-y-0.5 hover:bg-slate-50"
-                    >
-                      Start Your Project
-                      <Icon name="arrow_outward" className="text-[17px]" />
-                    </a>
-
-                    <Link
-                      to="/contact"
-                      className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/15"
-                    >
-                      Contact Us
-                      <Icon name="arrow_forward" className="text-[17px]" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              <div className="hidden w-64 items-center justify-center border-l border-white/10 p-10 lg:flex">
-                <div className="flex h-32 w-32 items-center justify-center rounded-full border border-white/20 bg-white/10">
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white text-blue-600 shadow-xl">
-                    <Icon name="rocket_launch" className="text-[32px]" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
+  return (
+    <>
       <style>{`
-        @keyframes fadeUp {
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        .services-page {
+          min-height: 100vh !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: #ffffff !important;
+          font-family: Inter, sans-serif !important;
+        }
+
+        .services-page section {
+          min-height: auto !important;
+          height: auto !important;
+          display: block !important;
+          align-items: unset !important;
+          justify-content: unset !important;
+          margin: 0 !important;
+        }
+
+        .services-page .services-hero {
+          min-height: auto !important;
+          height: auto !important;
+          display: block !important;
+          padding-top: 58px !important;
+          padding-bottom: 48px !important;
+        }
+
+        .services-page .services-main {
+          min-height: auto !important;
+          height: auto !important;
+          display: block !important;
+        }
+
+        .services-page footer {
+          min-height: auto !important;
+          height: auto !important;
+          display: block !important;
+        }
+
+        .services-grid {
+          background-image:
+            linear-gradient(rgba(148,163,184,.065) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148,163,184,.065) 1px, transparent 1px);
+          background-size: 38px 38px;
+          mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+
+        @keyframes navIn {
           from {
             opacity: 0;
-            transform: translateY(24px);
+            transform: translateY(-15px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
         }
+
+        @keyframes heroIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes detailIn {
+          from {
+            opacity: 0;
+            transform: translateX(18px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes cardIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px) scale(.97);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes barIn {
+          from {
+            transform: scaleY(0);
+          }
+          to {
+            transform: scaleY(1);
+          }
+        }
+
+        @keyframes floating {
+          0%, 100% {
+            transform: translateY(0);
+          }
+
+          50% {
+            transform: translateY(-6px);
+          }
+        }
+
+        .services-nav-animation {
+          animation: navIn .6s ease-out both;
+        }
+
+        .services-hero-animation {
+          animation: heroIn .7s ease-out both;
+        }
+
+        .hero-delay-1 {
+          animation-delay: .08s;
+        }
+
+        .hero-delay-2 {
+          animation-delay: .16s;
+        }
+
+        .hero-delay-3 {
+          animation-delay: .24s;
+        }
+
+        .service-detail-animation {
+          animation: detailIn .5s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        .floating-icon {
+          animation: floating 4s ease-in-out infinite;
+        }
+
+        @media (max-width: 767px) {
+          .services-page .services-hero {
+            padding-top: 42px !important;
+            padding-bottom: 38px !important;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .services-page *,
+          .services-page *::before,
+          .services-page *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .01ms !important;
+          }
+        }
       `}</style>
-    </main>
+
+      <div className="services-page overflow-hidden bg-white">
+        <header className="services-nav-animation sticky top-0 z-50 border-b border-slate-100 bg-white/95 backdrop-blur-xl">
+          <div className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+            <Link
+              to="/"
+              onClick={() => setMenu(false)}
+              className="group flex items-center gap-2.5"
+            >
+              <img
+                src={LOGO}
+                alt="Aplinode"
+                className="h-8 w-auto object-contain transition duration-300 group-hover:scale-105"
+              />
+
+              <span className="text-[19px] font-extrabold tracking-[-.04em] text-slate-900">
+                Aplinode
+              </span>
+            </Link>
+
+            <nav
+              className={`${
+                menu ? "flex" : "hidden"
+              } absolute left-0 top-[70px] w-full flex-col border-b border-slate-100 bg-white p-5 shadow-xl md:static md:flex md:w-auto md:flex-row md:items-center md:gap-7 md:border-0 md:bg-transparent md:p-0 md:shadow-none`}
+            >
+              <Link
+                to="/"
+                onClick={() => setMenu(false)}
+                className="border-b border-slate-100 py-3 text-sm font-medium text-slate-600 transition hover:text-blue-600 md:border-0 md:py-0"
+              >
+                Home
+              </Link>
+
+              <Link
+                to="/services"
+                onClick={() => setMenu(false)}
+                className="border-b border-slate-100 py-3 text-sm font-semibold text-blue-600 md:border-0 md:py-0"
+              >
+                Services
+              </Link>
+
+              <Link
+                to="/process"
+                onClick={() => setMenu(false)}
+                className="border-b border-slate-100 py-3 text-sm font-medium text-slate-600 transition hover:text-blue-600 md:border-0 md:py-0"
+              >
+                Process
+              </Link>
+
+              <Link
+                to="/technologies"
+                onClick={() => setMenu(false)}
+                className="border-b border-slate-100 py-3 text-sm font-medium text-slate-600 transition hover:text-blue-600 md:border-0 md:py-0"
+              >
+                Technologies
+              </Link>
+
+              <Link
+                to="/industries"
+                onClick={() => setMenu(false)}
+                className="border-b border-slate-100 py-3 text-sm font-medium text-slate-600 transition hover:text-blue-600 md:border-0 md:py-0"
+              >
+                Industries
+              </Link>
+
+              <Link
+                to="/faq"
+                onClick={() => setMenu(false)}
+                className="border-b border-slate-100 py-3 text-sm font-medium text-slate-600 transition hover:text-blue-600 md:border-0 md:py-0"
+              >
+                FAQ
+              </Link>
+
+              <a
+                href="https://wa.me/923323265152"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition duration-300 hover:-translate-y-0.5 hover:bg-blue-700 md:mt-0"
+              >
+                Get Started
+                <Icon
+                  name="arrow_forward"
+                  className="text-[16px]"
+                />
+              </a>
+            </nav>
+
+            <button
+              type="button"
+              onClick={() => setMenu(!menu)}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-700 md:hidden"
+              aria-label="Toggle menu"
+              aria-expanded={menu}
+            >
+              <Icon name={menu ? "close" : "menu"} />
+            </button>
+          </div>
+        </header>
+
+        <main className="services-main">
+          <section className="services-hero relative overflow-hidden bg-slate-50">
+            <div className="services-grid pointer-events-none absolute inset-0" />
+
+            <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-blue-500/10 blur-[90px]" />
+
+            <div className="relative mx-auto max-w-7xl px-5 text-center sm:px-8 lg:px-10">
+              <div className="services-hero-animation hero-delay-1">
+                <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-1.5 text-[11px] font-semibold text-blue-600 shadow-sm">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-600" />
+                  What we build
+                </span>
+              </div>
+
+              <h1 className="services-hero-animation hero-delay-2 mt-5 text-4xl font-extrabold tracking-[-.055em] text-slate-950 sm:text-5xl lg:text-6xl">
+                Our <span className="text-blue-600">Services</span>
+              </h1>
+
+              <p className="services-hero-animation hero-delay-3 mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+                Explore what we build. Pick a service to see how we can
+                help.
+              </p>
+
+              <div className="services-hero-animation hero-delay-3 mx-auto mt-7 flex max-w-4xl flex-wrap justify-center gap-2">
+                {services.map((service) => (
+                  <button
+                    key={service.number}
+                    onClick={() => setActive(service)}
+                    className={`rounded-full border px-3.5 py-2 text-[11px] font-semibold transition duration-300 sm:px-4 sm:text-xs ${
+                      active.number === service.number
+                        ? "border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                        : "border-slate-200 bg-white text-slate-600 hover:-translate-y-0.5 hover:border-blue-200 hover:text-blue-600 hover:shadow-sm"
+                    }`}
+                  >
+                    {service.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-white py-14 sm:py-18 lg:py-20">
+            <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+              <div className="grid gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
+                <Reveal>
+                  <div className="lg:sticky lg:top-24">
+                    <p className="text-[11px] font-bold uppercase tracking-[.2em] text-blue-600">
+                      Explore services
+                    </p>
+
+                    <h2 className="mt-3 text-2xl font-extrabold tracking-[-.04em] text-slate-950 sm:text-3xl">
+                      Everything you need to go digital.
+                    </h2>
+
+                    <p className="mt-3 text-sm leading-6 text-slate-500">
+                      Select a service and discover how we can help
+                      transform your idea into a reliable digital
+                      experience.
+                    </p>
+
+                    <div className="mt-6 space-y-1.5">
+                      {services.map((service) => (
+                        <button
+                          key={service.number}
+                          onClick={() => setActive(service)}
+                          className={`group flex w-full items-center gap-3 rounded-xl border p-3 text-left transition duration-300 ${
+                            active.number === service.number
+                              ? "border-blue-100 bg-blue-50/60"
+                              : "border-transparent hover:border-slate-100 hover:bg-slate-50"
+                          }`}
+                        >
+                          <span
+                            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold ${
+                              active.number === service.number
+                                ? "bg-blue-600 text-white"
+                                : "bg-slate-50 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600"
+                            }`}
+                          >
+                            {service.number}
+                          </span>
+
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-xs font-bold text-slate-800">
+                              {service.title}
+                            </span>
+
+                            <span className="mt-0.5 block truncate text-[10px] text-slate-400">
+                              {service.short}
+                            </span>
+                          </span>
+
+                          <Icon
+                            name="arrow_forward"
+                            className={`text-[16px] transition duration-300 ${
+                              active.number === service.number
+                                ? "text-blue-600"
+                                : "text-slate-300 group-hover:translate-x-1 group-hover:text-blue-500"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+
+                <Reveal delay={100}>
+                  <article
+                    key={active.number}
+                    className="service-detail-animation relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_18px_55px_rgba(15,23,42,.07)] sm:p-8"
+                  >
+                    <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-blue-500/5 blur-3xl" />
+
+                    <div className="relative">
+                      <div className="flex items-start gap-4">
+                        <div className="floating-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                          <Icon
+                            name={active.icon}
+                            className="text-[25px]"
+                          />
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] font-bold tracking-[.18em] text-blue-600">
+                            SERVICE {active.number}
+                          </p>
+
+                          <h3 className="mt-1.5 text-2xl font-extrabold tracking-[-.04em] text-slate-950 sm:text-3xl">
+                            {active.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <p className="mt-6 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
+                        {active.description}
+                      </p>
+
+                      <div className="mt-8 grid gap-8 md:grid-cols-2">
+                        <div>
+                          <h4 className="text-sm font-bold text-slate-900">
+                            What you get
+                          </h4>
+
+                          <div className="mt-4 space-y-3">
+                            {active.features.map((feature, index) => (
+                              <div
+                                key={feature}
+                                className="flex items-center gap-3"
+                                style={{
+                                  animation:
+                                    "heroIn .45s ease-out both",
+                                  animationDelay: `${index * 55}ms`,
+                                }}
+                              >
+                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                                  <Icon
+                                    name="check"
+                                    className="text-[14px]"
+                                  />
+                                </span>
+
+                                <span className="text-sm text-slate-600">
+                                  {feature}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-bold text-slate-900">
+                            Technologies
+                          </h4>
+
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {active.stack.map((tech, index) => (
+                              <span
+                                key={tech}
+                                className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-medium text-slate-600 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                                style={{
+                                  animation:
+                                    "cardIn .45s ease-out both",
+                                  animationDelay: `${index * 70}ms`,
+                                }}
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+
+                          {active.number === "03" ? (
+                            <DashboardPreview />
+                          ) : (
+                            <div className="mt-7 rounded-2xl border border-blue-100 bg-blue-50/50 p-4">
+                              <div className="flex items-center gap-3">
+                                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-blue-600 shadow-sm">
+                                  <Icon
+                                    name="auto_awesome"
+                                    className="text-[18px]"
+                                  />
+                                </div>
+
+                                <div>
+                                  <p className="text-xs font-bold text-slate-800">
+                                    Built with purpose
+                                  </p>
+
+                                  <p className="mt-1 text-[10px] leading-5 text-slate-500">
+                                    Clean, scalable and focused on
+                                    real results.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="mt-8 flex flex-col gap-4 border-t border-slate-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                          Ready to build something better?
+                        </div>
+
+                        <a
+                          href="https://wa.me/923323265152"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-2.5 text-xs font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-blue-600"
+                        >
+                          Discuss your project
+                          <Icon
+                            name="arrow_forward"
+                            className="text-[15px] transition group-hover:translate-x-1"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              </div>
+            </div>
+          </section>
+
+          <section className="relative overflow-hidden bg-blue-600 py-14 sm:py-18 lg:py-20">
+            <div className="absolute -left-20 -top-20 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+
+            <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-blue-950/20 blur-3xl" />
+
+            <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
+              <Reveal>
+                <Icon
+                  name="rocket_launch"
+                  className="text-[30px] text-white"
+                />
+
+                <h2 className="mt-4 text-3xl font-extrabold tracking-[-.04em] text-white sm:text-4xl">
+                  Have an idea? Let's turn it into reality.
+                </h2>
+
+                <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-blue-100">
+                  Tell us what you're building and we'll help you
+                  choose the right digital solution.
+                </p>
+
+                <a
+                  href="https://wa.me/923323265152"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-blue-600 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  Get Started
+                  <Icon
+                    name="arrow_forward"
+                    className="text-[17px]"
+                  />
+                </a>
+              </Reveal>
+            </div>
+          </section>
+        </main>
+
+        <footer className="border-t border-slate-100 bg-white">
+          <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+            <div className="grid gap-10 md:grid-cols-3">
+              <div>
+                <Link
+                  to="/"
+                  className="inline-flex items-center gap-2"
+                >
+                  <img
+                    src={LOGO}
+                    alt="Aplinode"
+                    className="h-8 w-auto"
+                  />
+
+                  <span className="text-lg font-extrabold text-slate-900">
+                    Aplinode
+                  </span>
+                </Link>
+
+                <p className="mt-4 max-w-sm text-sm leading-6 text-slate-500">
+                  Crafting Modern Digital Experiences That Build
+                  Trust.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">
+                  Quick Links
+                </h3>
+
+                <div className="mt-4 grid grid-cols-2 gap-y-3">
+                  {[
+                    ["Home", "/"],
+                    ["Services", "/services"],
+                    ["Process", "/process"],
+                    ["Technologies", "/technologies"],
+                    ["Industries", "/industries"],
+                    ["FAQ", "/faq"],
+                  ].map(([name, path]) => (
+                    <Link
+                      key={name}
+                      to={path}
+                      className="text-xs text-slate-500 transition hover:translate-x-1 hover:text-blue-600"
+                    >
+                      {name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">
+                  Contact
+                </h3>
+
+                <div className="mt-4 space-y-3 text-xs text-slate-500">
+                  <p className="flex items-center gap-2">
+                    <Icon
+                      name="location_on"
+                      className="text-[17px] text-blue-600"
+                    />
+                    Karachi, Pakistan
+                  </p>
+
+                  <a
+                    href="tel:+923323265152"
+                    className="flex items-center gap-2 transition hover:text-blue-600"
+                  >
+                    <Icon
+                      name="call"
+                      className="text-[17px] text-blue-600"
+                    />
+                    +92 332 326 5152
+                  </a>
+
+                  <a
+                    href="mailto:contact@aplinode.com"
+                    className="flex items-center gap-2 transition hover:text-blue-600"
+                  >
+                    <Icon
+                      name="mail"
+                      className="text-[17px] text-blue-600"
+                    />
+                    contact@aplinode.com
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 flex flex-col gap-3 border-t border-slate-100 pt-5 text-[11px] text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+              <p>© 2026 Aplinode. All rights reserved.</p>
+
+              <div className="flex gap-5">
+                <Link
+                  to="/privacy"
+                  className="hover:text-blue-600"
+                >
+                  Privacy Policy
+                </Link>
+
+                <Link
+                  to="/terms"
+                  className="hover:text-blue-600"
+                >
+                  Terms of Service
+                </Link>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </>
   );
 }

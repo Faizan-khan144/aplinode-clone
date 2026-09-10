@@ -35,8 +35,8 @@ function Reveal({ children, className = "", delay = 0 }) {
         }
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -50px 0px",
+        threshold: 0.08,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
@@ -56,14 +56,21 @@ function Reveal({ children, className = "", delay = 0 }) {
   );
 }
 
-function SectionHeading({ eyebrow, title, description, center = false }) {
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  center = false,
+}) {
   return (
     <div className={`section-heading ${center ? "center" : ""}`}>
       <div className="section-eyebrow">
         <span className="eyebrow-dot" />
         {eyebrow}
       </div>
+
       <h2>{title}</h2>
+
       {description && <p>{description}</p>}
     </div>
   );
@@ -84,8 +91,13 @@ export function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-inner">
-        <Link to="/" className="navbar-brand" onClick={() => setOpen(false)}>
+        <Link
+          to="/"
+          className="navbar-brand"
+          onClick={() => setOpen(false)}
+        >
           <img src={LOGO} alt="Aplinode" />
+          <span>Aplinode</span>
         </Link>
 
         <nav className={`nav-links ${open ? "open" : ""}`}>
@@ -106,7 +118,6 @@ export function Navbar() {
             onClick={() => setOpen(false)}
           >
             Get Started
-            <Icon name="arrow_forward" />
           </Link>
         </nav>
 
@@ -127,8 +138,6 @@ export function Hero() {
     <>
       <section className="hero">
         <div className="hero-background-grid" />
-        <div className="hero-orb hero-orb-one" />
-        <div className="hero-orb hero-orb-two" />
 
         <div className="hero-grid">
           <Reveal className="hero-copy">
@@ -138,81 +147,62 @@ export function Hero() {
             </div>
 
             <h1>
-              Web Development & Modern Digital Experiences{" "}
-              <span>that Build Trust</span>
+              <span className="blue-text">Web Development</span>
+              <span>&amp; Modern Digital</span>
+              <span>Experiences that Build</span>
+              <span className="blue-text">Trust</span>
             </h1>
 
             <p className="hero-description">
-              Aplinode is a web development agency building premium websites,
-              landing pages, web applications, dashboards, and digital
-              experiences for modern businesses.
+              Aplinode is a web development agency in Pakistan
+              building premium websites, landing pages, web
+              applications, dashboards, and automation systems for
+              modern businesses who refuse to settle for average.
             </p>
 
             <div className="hero-actions">
-              <Link to="/contact" className="btn-primary">
+              <a
+                href="https://wa.me/923323265152"
+                className="btn-primary"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Start Your Project
                 <Icon name="trending_flat" />
-              </Link>
+              </a>
 
               <a
                 href="mailto:contact@aplinode.com"
                 className="btn-secondary"
               >
                 Book Free Consultation
-                <Icon name="calendar_month" />
               </a>
-            </div>
-
-            <div className="hero-trust">
-              <div className="hero-trust-item">
-                <Icon name="verified" />
-                Premium Quality
-              </div>
-
-              <div className="hero-trust-item">
-                <Icon name="speed" />
-                Fast Delivery
-              </div>
-
-              <div className="hero-trust-item">
-                <Icon name="devices" />
-                Responsive First
-              </div>
             </div>
           </Reveal>
 
-          <Reveal className="hero-visual reveal-right" delay={150}>
-            <div className="hero-image-border">
-              <div className="hero-image-wrap">
-                <img
-                  src={HERO_IMAGE}
-                  alt="Aplinode digital project"
-                />
-                <div className="hero-image-overlay" />
+          <Reveal
+            className="hero-visual"
+            delay={120}
+          >
+            <div className="hero-image-wrap">
+              <img
+                src={HERO_IMAGE}
+                alt="Web development project built by Aplinode"
+              />
 
-                <div className="hero-play">
-                  <Icon name="play_arrow" />
-                </div>
+              <div className="hero-play">
+                <Icon name="play_arrow" />
               </div>
             </div>
 
-            <div className="hero-floating-card hero-card-top">
-              <div className="hero-floating-icon">
-                <Icon name="speed" />
+            <div className="hero-responsive-card">
+              <div className="hero-responsive-icon">
+                <Icon name="devices" />
               </div>
-              <div>
-                <strong>Fast Loading</strong>
-                <span>Optimized performance</span>
-              </div>
-            </div>
 
-            <div className="hero-floating-card hero-card-bottom">
-              <div className="hero-floating-icon">
-                <Icon name="verified_user" />
-              </div>
               <div>
-                <strong>Secure & Scalable</strong>
-                <span>Built for growth</span>
+                <span>Responsiveness</span>
+                <strong>Fully Responsive</strong>
               </div>
             </div>
           </Reveal>
@@ -225,14 +215,14 @@ export function Hero() {
             ["devices", "Fully Responsive"],
             ["speed", "Fast Loading"],
             ["search", "SEO Friendly"],
-            ["phone_iphone", "Mobile Responsive"],
+            ["devices", "Mobile Responsive"],
             ["verified_user", "Secure"],
             ["upgrade", "Scalable"],
             ["brush", "Modern Design"],
           ].map(([icon, text]) => (
             <div className="feature-item" key={text}>
               <Icon name={icon} />
-              {text}
+              <span>{text}</span>
             </div>
           ))}
         </div>
@@ -245,8 +235,6 @@ const services = [
   {
     icon: "language",
     title: "Website Development",
-    description:
-      "High-quality websites designed around your business goals.",
     items: [
       "Professional Portfolios",
       "High-Conversion Landing Pages",
@@ -257,8 +245,6 @@ const services = [
   {
     icon: "layers",
     title: "Web App Development",
-    description:
-      "Powerful web applications built around real business workflows.",
     items: [
       "Custom SaaS Solutions",
       "E-commerce Marketplaces",
@@ -269,44 +255,36 @@ const services = [
   {
     icon: "dashboard",
     title: "Admin Panels & Dashboards",
-    description:
-      "Clean dashboards that turn complex information into useful insights.",
     items: [
       "Inventory Management",
       "CRM Integration",
       "Real-time Data Visualization",
-      "User Role Control",
+      "User Role Control (RBAC)",
     ],
   },
   {
     icon: "database",
     title: "Database Solutions",
-    description:
-      "Reliable data architecture and integrations for modern applications.",
     items: [
       "Database Architecture",
-      "Real-time Sync",
-      "Relational Systems",
+      "Real-time Sync (Firestore)",
+      "Relational Systems (Supabase)",
       "Data Migration & API Design",
     ],
   },
   {
     icon: "palette",
     title: "Graphic Designing",
-    description:
-      "Visual systems that make your brand consistent and memorable.",
     items: [
       "Brand Identity & Logo Design",
       "UI/UX Design",
       "Social Media Graphics",
-      "Marketing Collateral",
+      "Print & Marketing Collateral",
     ],
   },
   {
     icon: "settings_suggest",
     title: "Maintenance & Support",
-    description:
-      "Continuous improvements that keep your digital product healthy.",
     items: [
       "Security Updates & Audits",
       "Performance Monitoring",
@@ -330,32 +308,31 @@ export function Services() {
 
         <div className="services-grid">
           {services.map((service, index) => (
-            <Reveal key={service.title} delay={index * 70}>
+            <Reveal
+              key={service.title}
+              delay={index * 60}
+            >
               <article className="service-card">
                 <div className="service-card-top">
                   <div className="service-icon">
                     <Icon name={service.icon} />
                   </div>
+
                   <span className="service-number">
                     0{index + 1}
                   </span>
                 </div>
 
                 <h3>{service.title}</h3>
-                <p>{service.description}</p>
 
                 <ul className="service-list">
                   {service.items.map((item) => (
                     <li key={item}>
                       <Icon name="check_circle" />
-                      {item}
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
-
-                <div className="service-arrow">
-                  <Icon name="arrow_forward" />
-                </div>
               </article>
             </Reveal>
           ))}
@@ -402,30 +379,25 @@ export function WhyAplinode() {
             <h2>Why Businesses Choose Aplinode</h2>
 
             <p>
-              We don't just write code; we solve business problems. Our
-              approach combines technical expertise with a deep understanding
-              of design, marketing, and user experience.
+              We don't just write code; we solve business problems.
+              Our approach combines technical expertise with a deep
+              understanding of marketing and user psychology.
             </p>
-
-            <Link to="/contact" className="text-link">
-              Start a conversation
-              <Icon name="arrow_forward" />
-            </Link>
           </Reveal>
 
           <div className="reasons-grid">
             {reasons.map((reason, index) => (
-              <Reveal key={reason.title} delay={index * 90}>
+              <Reveal
+                key={reason.title}
+                delay={index * 70}
+              >
                 <article className="reason-card">
                   <div className="reason-icon">
                     <Icon name={reason.icon} />
                   </div>
 
-                  <span className="reason-index">
-                    0{index + 1}
-                  </span>
-
                   <h3>{reason.title}</h3>
+
                   <p>{reason.description}</p>
                 </article>
               </Reveal>
@@ -443,12 +415,9 @@ export function Process() {
       <div className="container">
         <Reveal>
           <div className="roadmap-card">
-            <div className="roadmap-top">
-              <div>
-                <span className="roadmap-label">
-                  Project Roadmap
-                </span>
-                <h3>Milestone 4: Development</h3>
+            <div className="roadmap-header">
+              <div className="roadmap-label">
+                Project Roadmap
               </div>
 
               <div className="roadmap-status">
@@ -457,23 +426,26 @@ export function Process() {
               </div>
             </div>
 
-            <div className="roadmap-title-row">
-              <span>Development Progress</span>
-              <strong>85%</strong>
+            <div className="roadmap-main">
+              <h3>Milestone 4: Development</h3>
+
+              <div className="roadmap-percentage">
+                <strong>85%</strong>
+                <span>Complete</span>
+              </div>
             </div>
 
             <div className="roadmap-progress">
               <span />
             </div>
 
-            <div className="roadmap-meta">
+            <div className="roadmap-bottom">
               <span>Milestone 4</span>
 
-              <div className="roadmap-mini-progress">
+              <div className="roadmap-quality">
                 <span />
+                Quality Assurance
               </div>
-
-              <span>100% Quality Assurance</span>
             </div>
           </div>
         </Reveal>
@@ -486,68 +458,38 @@ const masterplanSteps = [
   {
     icon: "search",
     title: "Discovery",
-    short: "Understand the vision",
-    progress: 15,
     description:
-      "We start by diving deep into your vision, requirements, target audience, and challenges to create a strategic foundation.",
-    current: "Business Discovery",
-    time: "1–2 Days",
-    deliverables: "Project Brief",
+      "We start by diving deep into your vision, requirements, and challenges to ensure a strategic foundation.",
   },
   {
     icon: "route",
     title: "Planning & Strategy",
-    short: "Build the roadmap",
-    progress: 30,
     description:
-      "We create a detailed roadmap, choose the right technology stack, and define clear deliverables for every phase.",
-    current: "Project Planning",
-    time: "2–4 Days",
-    deliverables: "Technical Roadmap",
+      "We create a detailed roadmap, choose the right tech stack, and define clear deliverables for every phase.",
   },
   {
     icon: "design_services",
     title: "UI/UX Design",
-    short: "Design the experience",
-    progress: 48,
     description:
-      "High-fidelity wireframes and polished interfaces create an intuitive digital experience that represents your brand.",
-    current: "Interface Design",
-    time: "3–7 Days",
-    deliverables: "UI/UX System",
+      "High-fidelity wireframes and interactive prototypes that represent your brand perfectly.",
   },
   {
     icon: "code",
     title: "Development",
-    short: "Build the product",
-    progress: 85,
     description:
-      "Our engineers build and integrate every component with clean code, responsive layouts, performance optimization, and security best practices.",
-    current: "Development",
-    time: "1–4 Weeks",
-    deliverables: "Working Product",
+      "Our engineers build and integrate every component with clean code, performance optimization, and security best practices.",
   },
   {
     icon: "verified",
     title: "Testing & QA",
-    short: "Validate everything",
-    progress: 95,
     description:
-      "We test across devices, browsers, responsive breakpoints, and edge cases to ensure a reliable experience before launch.",
-    current: "Quality Assurance",
-    time: "2–5 Days",
-    deliverables: "QA Report",
+      "We test across devices, browsers, and edge cases to ensure a flawless experience before going live.",
   },
   {
     icon: "rocket_launch",
     title: "Launch & Support",
-    short: "Go live & grow",
-    progress: 100,
     description:
       "We deploy your project, monitor performance, and provide ongoing support to keep everything running smoothly.",
-    current: "Production Launch",
-    time: "Ongoing",
-    deliverables: "Live Product",
   },
 ];
 
@@ -567,136 +509,71 @@ export function Masterplan() {
         </Reveal>
 
         <Reveal delay={100}>
-          <div className="masterplan-dashboard">
-            <aside className="masterplan-sidebar">
-              <div className="masterplan-sidebar-head">
-                <span>Project Journey</span>
-
-                <span className="masterplan-live">
-                  <i />
-                  Live
-                </span>
-              </div>
-
-              <div className="masterplan-nav">
-                {masterplanSteps.map((item, index) => (
-                  <button
-                    key={item.title}
-                    className={`masterplan-nav-item ${
-                      active === index ? "active" : ""
-                    }`}
-                    onClick={() => setActive(index)}
-                  >
-                    <span className="masterplan-nav-number">
-                      0{index + 1}
-                    </span>
-
-                    <span className="masterplan-nav-icon">
-                      <Icon name={item.icon} />
-                    </span>
-
-                    <span className="masterplan-nav-copy">
-                      <strong>{item.title}</strong>
-                      <small>{item.short}</small>
-                    </span>
-
-                    <Icon
-                      name="chevron_right"
-                      className="masterplan-chevron"
-                    />
-                  </button>
-                ))}
-              </div>
-            </aside>
-
-            <div className="masterplan-content">
-              <div className="masterplan-content-top">
-                <div>
-                  <span className="masterplan-badge">
-                    Phase {active + 1} of 6
+          <div className="masterplan">
+            <div className="masterplan-list">
+              {masterplanSteps.map((item, index) => (
+                <button
+                  key={item.title}
+                  className={`masterplan-step ${
+                    active === index ? "active" : ""
+                  }`}
+                  onClick={() => setActive(index)}
+                >
+                  <span className="masterplan-number">
+                    {index + 1}
                   </span>
 
-                  <h3>{step.title}</h3>
+                  <span className="masterplan-step-icon">
+                    <Icon name={item.icon} />
+                  </span>
 
-                  <p>{step.description}</p>
-                </div>
+                  <span className="masterplan-step-text">
+                    <strong>{item.title}</strong>
+                  </span>
 
-                <div className="masterplan-complete">
-                  <span>Completion</span>
-                  <strong>{step.progress}%</strong>
-                </div>
+                  <Icon
+                    name="chevron_right"
+                    className="masterplan-arrow"
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div className="masterplan-detail">
+              <div className="masterplan-detail-top">
+                <span>Phase {active + 1} of 6</span>
+
+                <strong>
+                  {Math.round(((active + 1) / 6) * 100)}%
+                </strong>
               </div>
 
-              <div className="masterplan-progress-line">
-                <span style={{ width: `${step.progress}%` }} />
+              <div className="masterplan-detail-icon">
+                <Icon name={step.icon} />
               </div>
 
-              <div className="masterplan-details">
-                <div className="masterplan-detail-card">
-                  <div className="masterplan-detail-icon">
-                    <Icon name="track_changes" />
-                  </div>
+              <h3>{step.title}</h3>
 
-                  <div>
-                    <small>Current Phase</small>
-                    <strong>{step.current}</strong>
-                  </div>
-                </div>
+              <p>{step.description}</p>
 
-                <div className="masterplan-detail-card">
-                  <div className="masterplan-detail-icon">
-                    <Icon name="schedule" />
-                  </div>
-
-                  <div>
-                    <small>Estimated Time</small>
-                    <strong>{step.time}</strong>
-                  </div>
-                </div>
-
-                <div className="masterplan-detail-card">
-                  <div className="masterplan-detail-icon">
-                    <Icon name="inventory_2" />
-                  </div>
-
-                  <div>
-                    <small>Deliverables</small>
-                    <strong>{step.deliverables}</strong>
-                  </div>
-                </div>
-
-                <div className="masterplan-detail-card">
-                  <div className="masterplan-detail-icon">
-                    <Icon name="verified_user" />
-                  </div>
-
-                  <div>
-                    <small>Quality Gate</small>
-                    <strong>Ready for next phase</strong>
-                  </div>
-                </div>
+              <div className="masterplan-line">
+                <span
+                  style={{
+                    width: `${((active + 1) / 6) * 100}%`,
+                  }}
+                />
               </div>
 
-              <div className="masterplan-description">
-                <span>Phase Objective</span>
-                <p>{step.description}</p>
-              </div>
-
-              <div className="masterplan-bottom">
-                <div className="masterplan-check">
+              <div className="masterplan-detail-footer">
+                <span>
                   <Icon name="check_circle" />
                   Clear deliverables
-                </div>
+                </span>
 
-                <div className="masterplan-check">
-                  <Icon name="check_circle" />
+                <span>
+                  <Icon name="verified" />
                   Quality focused
-                </div>
-
-                <div className="masterplan-check">
-                  <Icon name="check_circle" />
-                  Client aligned
-                </div>
+                </span>
               </div>
             </div>
           </div>
@@ -710,22 +587,42 @@ const technologies = [
   {
     icon: "terminal",
     title: "Frontend",
-    items: ["HTML5", "CSS3", "JavaScript", "React", "Tailwind CSS"],
+    items: [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Tailwind CSS",
+      "Bootstrap",
+    ],
   },
   {
     icon: "storage",
     title: "Backend & DB",
-    items: ["Node.js", "Express", "MongoDB", "Firebase", "Supabase"],
+    items: [
+      "Supabase",
+      "Firebase",
+      "Node.js",
+      "PostgreSQL",
+    ],
   },
   {
     icon: "handyman",
     title: "Tools & Cloud",
-    items: ["Vercel", "Git", "GitHub", "Figma", "Cloudinary"],
+    items: [
+      "Vercel",
+      "Git / GitHub",
+      "Figma",
+      "Docker",
+    ],
   },
   {
     icon: "psychology",
     title: "Next Gen",
-    items: ["Python", "AI", "Automation", "Generative UI"],
+    items: [
+      "AI Assisted Dev",
+      "AI Research",
+      "Generative UI",
+    ],
   },
 ];
 
@@ -744,7 +641,10 @@ export function Technologies() {
 
         <div className="tech-grid">
           {technologies.map((technology, index) => (
-            <Reveal key={technology.title} delay={index * 80}>
+            <Reveal
+              key={technology.title}
+              delay={index * 70}
+            >
               <article className="tech-card">
                 <div className="tech-icon">
                   <Icon name={technology.icon} />
@@ -770,42 +670,41 @@ export function Founder() {
   return (
     <section className="section founder-section">
       <div className="container">
-        <div className="founder-grid">
-          <Reveal className="founder-visual reveal-left">
-            <div className="founder-image-wrap">
-              <img src={FOUNDER_IMAGE} alt="Mustafa Shahzad" />
-            </div>
-
-            <div className="founder-image-label">
-              <Icon name="verified" />
-              Visionary Leadership
-            </div>
-          </Reveal>
-
-          <Reveal className="founder-copy" delay={150}>
+        <div className="founder-layout">
+          <Reveal className="founder-copy">
             <div className="section-eyebrow">
               <span className="eyebrow-dot" />
               Visionary
             </div>
 
-            <h2>Building Digital Experiences With Purpose</h2>
-
-            <p>
-              Founded by engineers with a passion for world-class digital
-              experiences, Aplinode focuses on building products that look
-              exceptional and perform even better.
+            <p className="founder-intro">
+              Founded by engineers with a passion for world-class
+              digital experiences.
             </p>
 
-            <div className="founder-meta">
+            <div className="founder-person">
               <div className="founder-avatar">
-                <img src={FOUNDER_IMAGE} alt="Mustafa Shahzad" />
+                <img
+                  src={FOUNDER_IMAGE}
+                  alt="Mustafa Shahzad"
+                />
               </div>
 
               <div>
-                <strong>Mustafa Shahzad</strong>
+                <h3>Mustafa Shahzad</h3>
                 <span>Co-Founder</span>
               </div>
             </div>
+          </Reveal>
+
+          <Reveal
+            className="founder-image"
+            delay={120}
+          >
+            <img
+              src={FOUNDER_IMAGE}
+              alt="Mustafa Shahzad"
+            />
           </Reveal>
         </div>
       </div>
@@ -832,7 +731,6 @@ export function Industries() {
       <div className="container">
         <Reveal>
           <SectionHeading
-            eyebrow="Who We Serve"
             title="Industries We Empower"
             description="Digital solutions tailored for ambitious businesses across different industries."
             center
@@ -841,7 +739,10 @@ export function Industries() {
 
         <div className="industries-grid">
           {industries.map(([icon, title], index) => (
-            <Reveal key={title} delay={index * 45}>
+            <Reveal
+              key={title}
+              delay={index * 40}
+            >
               <div className="industry-card">
                 <Icon name={icon} />
                 <span>{title}</span>
@@ -860,7 +761,6 @@ export function Testimonial() {
       <div className="container">
         <Reveal>
           <SectionHeading
-            eyebrow="Client Feedback"
             title="What Our Clients Say"
             description="Real feedback from businesses we've helped grow."
             center
@@ -869,27 +769,23 @@ export function Testimonial() {
 
         <Reveal delay={100}>
           <article className="testimonial-card">
-            <div className="testimonial-quote">
+            <div className="testimonial-icon">
               <Icon name="format_quote" />
             </div>
 
-            <div className="testimonial-content">
-              <h2>Trusted by businesses</h2>
+            <blockquote>
+              “Thanks brother I'm very satisfied with your service
+              and price hope to do more good business together in
+              future 🤝”
+            </blockquote>
 
-              <blockquote>
-                “Thanks brother I'm very satisfied with your service and price
-                hope to do more good business together in future.”
-              </blockquote>
+            <div className="testimonial-client">
+              <div className="testimonial-client-icon">
+                <Icon name="business" />
+              </div>
 
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  <Icon name="business" />
-                </div>
-
-                <div>
-                  <strong>Trendz Automotive</strong>
-                  <span>Business Client</span>
-                </div>
+              <div>
+                <strong>Trendz Automotive</strong>
               </div>
             </div>
           </article>
@@ -903,73 +799,69 @@ const faqs = [
   {
     question: "How long does it take to build a website?",
     answer:
-      "A typical landing page takes 1–2 weeks, while complex web applications can take 4–8 weeks depending on features and integrations.",
+      "A typical landing page takes 1-2 weeks, while complex web applications can take 4-8 weeks depending on features and integrations.",
   },
   {
     question: "Do you provide maintenance after launch?",
     answer:
-      "Yes. Ongoing maintenance can include hosting management, security updates, performance optimization, and future feature improvements.",
+      "Yes, we offer ongoing maintenance packages that include hosting management, security updates, and performance optimization.",
   },
   {
     question: "Will my website be mobile-friendly?",
     answer:
-      "Absolutely. Every product is designed responsively so it works smoothly across smartphones, tablets, laptops, and desktop screens.",
+      "Absolutely. Every single product we build is responsive-first, ensuring a flawless experience on smartphones, tablets, and desktops.",
   },
 ];
 
 export function FAQ() {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(-1);
 
   return (
     <section className="section faq-section">
       <div className="container">
-        <div className="faq-grid">
-          <Reveal className="faq-intro">
-            <div className="section-eyebrow">
-              <span className="eyebrow-dot" />
-              FAQ
-            </div>
+        <Reveal>
+          <SectionHeading
+            title="Frequently Asked Questions"
+            center
+          />
+        </Reveal>
 
-            <h2>Frequently Asked Questions</h2>
+        <div className="faq-list">
+          {faqs.map((faq, index) => (
+            <Reveal
+              key={faq.question}
+              delay={index * 60}
+            >
+              <div className="faq-item">
+                <button
+                  className="faq-question"
+                  onClick={() =>
+                    setActive(
+                      active === index ? -1 : index
+                    )
+                  }
+                >
+                  <span>{faq.question}</span>
 
-            <p>
-              Everything you need to know before starting your next digital
-              project.
-            </p>
-          </Reveal>
-
-          <div className="faq-list">
-            {faqs.map((faq, index) => (
-              <Reveal key={faq.question} delay={index * 70}>
-                <div className="faq-item">
-                  <button
-                    className="faq-question"
-                    onClick={() =>
-                      setActive(active === index ? -1 : index)
+                  <Icon
+                    name={
+                      active === index
+                        ? "remove"
+                        : "expand_more"
                     }
-                  >
-                    <span>{faq.question}</span>
+                  />
+                </button>
 
-                    <Icon
-                      name={
-                        active === index
-                          ? "remove"
-                          : "add"
-                      }
-                    />
-                  </button>
-
-                  <div
-                    className={`faq-answer ${
-                      active === index ? "open" : ""
-                    }`}
-                  >
-                    <p>{faq.answer}</p>
-                  </div>
+                <div
+                  className={`faq-answer ${
+                    active === index ? "open" : ""
+                  }`}
+                >
+                  <p>{faq.answer}</p>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -979,9 +871,6 @@ export function FAQ() {
 export function CTA() {
   return (
     <section className="cta-section">
-      <div className="cta-glow cta-glow-one" />
-      <div className="cta-glow cta-glow-two" />
-
       <div className="container">
         <Reveal>
           <div className="cta-inner">
@@ -993,25 +882,27 @@ export function CTA() {
             <h2>Let's Build Something Exceptional</h2>
 
             <p>
-              Transform your vision into a world-class digital reality. Your
-              business deserves better than "good enough."
+              Transform your vision into a world-class digital
+              reality. Your business deserves better than "good
+              enough."
             </p>
 
             <div className="cta-actions">
               <a
-                href="mailto:contact@aplinode.com"
+                href="https://wa.me/923323265152"
+                target="_blank"
+                rel="noreferrer"
                 className="btn-primary"
               >
-                Schedule Consultation
-                <Icon name="calendar_month" />
+                WhatsApp Us Now
+                <Icon name="chat" />
               </a>
 
               <a
                 href="mailto:contact@aplinode.com"
                 className="btn-secondary"
               >
-                Email Us
-                <Icon name="mail" />
+                Schedule Consultation
               </a>
             </div>
           </div>
@@ -1025,19 +916,15 @@ export function Contact() {
   return (
     <section className="contact-section">
       <div className="container">
-        <div className="contact-grid">
-          <Reveal className="contact-copy">
-            <div className="section-eyebrow">
-              <span className="eyebrow-dot" />
-              Contact Us
+        <Reveal>
+          <div className="contact-grid">
+            <div className="contact-copy">
+              <h2>Contact Information</h2>
+
+              <p>
+                Let's connect and bring your ideas to life.
+              </p>
             </div>
-
-            <h2>Let's connect and bring your ideas to life.</h2>
-
-            <p>
-              Have a project in mind? Tell us what you're building and let's
-              turn the idea into a digital experience.
-            </p>
 
             <div className="contact-details">
               <div className="contact-detail">
@@ -1046,7 +933,7 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <small>Address</small>
+                  <span>Address</span>
                   <strong>Karachi, Pakistan</strong>
                 </div>
               </div>
@@ -1057,7 +944,7 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <small>Phone</small>
+                  <span>Phone</span>
                   <strong>+92 332 326 5152</strong>
                 </div>
               </div>
@@ -1068,73 +955,30 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <small>Email</small>
+                  <span>Email</span>
                   <strong>contact@aplinode.com</strong>
                 </div>
               </div>
-            </div>
-          </Reveal>
 
-          <Reveal className="contact-form-wrap reveal-right" delay={120}>
-            <form className="contact-form">
-              <div className="contact-form-grid">
-                <div className="form-group">
-                  <label htmlFor="name">Your Name</label>
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="John Doe"
-                  />
+              <div className="contact-detail">
+                <div className="contact-detail-icon">
+                  <Icon name="language" />
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email Address</label>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="phone">Phone Number</label>
-                  <input
-                    id="phone"
-                    type="tel"
-                    placeholder="+92 300 0000000"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="service">Service</label>
-                  <select id="service" defaultValue="">
-                    <option value="" disabled>
-                      Select a service
-                    </option>
-                    <option>Website Development</option>
-                    <option>Web App Development</option>
-                    <option>Admin Dashboard</option>
-                    <option>UI/UX Design</option>
-                    <option>Maintenance & Support</option>
-                  </select>
-                </div>
-
-                <div className="form-group full">
-                  <label htmlFor="message">Project Details</label>
-                  <textarea
-                    id="message"
-                    placeholder="Tell us a little about your project..."
-                  />
+                <div>
+                  <span>Website</span>
+                  <a
+                    href="https://www.aplinode.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    www.aplinode.com
+                  </a>
                 </div>
               </div>
-
-              <button type="button" className="btn-primary">
-                Send Inquiry
-                <Icon name="arrow_forward" />
-              </button>
-            </form>
-          </Reveal>
-        </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -1146,8 +990,9 @@ export function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <Link to="/">
+            <Link to="/" className="footer-logo">
               <img src={LOGO} alt="Aplinode" />
+              <span>Aplinode</span>
             </Link>
 
             <p>
@@ -1157,6 +1002,7 @@ export function Footer() {
 
           <div className="footer-column">
             <h4>Quick Links</h4>
+
             <Link to="/services">Services</Link>
             <Link to="/process">Our Process</Link>
             <Link to="/technologies">Technology</Link>
@@ -1166,6 +1012,7 @@ export function Footer() {
 
           <div className="footer-column">
             <h4>Contact Us</h4>
+
             <span>Karachi, Pakistan</span>
             <span>+92 332 326 5152</span>
             <span>contact@aplinode.com</span>
@@ -1173,7 +1020,7 @@ export function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 Aplinode. All rights reserved.</span>
+          <span>© 2026 Aplinode</span>
 
           <div>
             <Link to="/privacy">Privacy Policy</Link>
