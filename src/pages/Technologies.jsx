@@ -1,879 +1,941 @@
-import { useState } from "react";
 import { Link } from "react-router";
 
 const LOGO =
   "https://res.cloudinary.com/dca2lhkw2/image/upload/q_auto,f_auto/v1781987890/logo_xt9ve6.png";
 
-const industries = [
+const technologies = [
   {
-    name: "Startups",
-    icon: "🚀",
-    tagline: "Move fast. Scale smart.",
-    description:
-      "From MVP to Series A and beyond. We build scalable foundations that investors love and users crave.",
-    face: [
-      "Limited time & budget",
-      "Rapid iteration",
-      "Scaling 0 to 1",
-    ],
-    deliver: [
-      "Lean MVP development",
-      "Scalable architecture",
-      "Fast deployment",
-    ],
+    name: "HTML",
+    category: "Frontend",
+    description: "Semantic, accessible markup for strong digital foundations.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M4 3h16l-1.5 17L12 22l-6.5-2L4 3Z" />
+        <path d="M7.5 7h9M7.8 11h8.4M8.3 15h7.4" />
+      </svg>
+    ),
   },
   {
-    name: "SaaS",
-    icon: "☁",
-    tagline: "Build products people rely on.",
-    description:
-      "We create reliable SaaS platforms with intuitive experiences, scalable infrastructure, and the flexibility to grow with your customers.",
-    face: [
-      "Complex product requirements",
-      "Growing user base",
-      "Reliable infrastructure",
-    ],
-    deliver: [
-      "Scalable SaaS architecture",
-      "Modern product interfaces",
-      "Performance optimization",
-    ],
+    name: "CSS",
+    category: "Frontend",
+    description: "Responsive styling and polished interfaces across every screen.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M4 3h16l-1.5 17L12 22l-6.5-2L4 3Z" />
+        <path d="M7.5 7h9M7 11h8M8 15h6" />
+      </svg>
+    ),
   },
   {
-    name: "Restaurants",
-    icon: "🍽️",
-    tagline: "Serve better. Grow faster.",
-    description:
-      "Digital experiences that help restaurants connect with customers, simplify operations, and create stronger online experiences.",
-    face: [
-      "Managing online presence",
-      "Customer engagement",
-      "Operational efficiency",
-    ],
-    deliver: [
-      "Restaurant websites",
-      "Online ordering experiences",
-      "Digital customer journeys",
-    ],
+    name: "JavaScript",
+    category: "Frontend",
+    description: "Dynamic functionality and modern web interactions.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M8 17v-1.2c0-.8.5-1.3 1.3-1.3.9 0 1.5.6 1.5 1.5V18M16 14.5c-.5-.4-1-.6-1.6-.6-.9 0-1.5.5-1.5 1.2 0 1.5 3.1 1 3.1 2.7 0 .8-.7 1.3-1.6 1.3-.7 0-1.3-.2-1.8-.7" />
+      </svg>
+    ),
   },
   {
-    name: "Healthcare",
-    icon: "✚",
-    tagline: "Technology that puts people first.",
-    description:
-      "We build accessible and dependable digital solutions that help healthcare businesses deliver better experiences.",
-    face: [
-      "Patient experience",
-      "Data management",
-      "Accessible digital services",
-    ],
-    deliver: [
-      "Healthcare platforms",
-      "Patient-focused interfaces",
-      "Secure digital systems",
-    ],
+    name: "React",
+    category: "Frontend",
+    description: "Component-driven applications built for speed and scale.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <ellipse cx="12" cy="12" rx="9" ry="3.7" />
+        <ellipse cx="12" cy="12" rx="9" ry="3.7" transform="rotate(60 12 12)" />
+        <ellipse cx="12" cy="12" rx="9" ry="3.7" transform="rotate(120 12 12)" />
+        <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
   },
   {
-    name: "Real Estate",
-    icon: "⌂",
-    tagline: "Turn property into opportunity.",
-    description:
-      "Modern real estate platforms that make property discovery, presentation, and customer engagement simpler.",
-    face: [
-      "Property discovery",
-      "Lead generation",
-      "Managing large listings",
-    ],
-    deliver: [
-      "Property platforms",
-      "Advanced listing experiences",
-      "Lead-focused websites",
-    ],
+    name: "Next.js",
+    category: "Frontend",
+    description: "Production-ready React applications with powerful performance.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M8 16V8l8 8M13 8h3" />
+      </svg>
+    ),
   },
   {
-    name: "Agencies",
-    icon: "◉",
-    tagline: "Present your work. Win more clients.",
-    description:
-      "We help agencies create digital experiences that communicate their value clearly and turn visitors into opportunities.",
-    face: [
-      "Standing out online",
-      "Showcasing expertise",
-      "Converting visitors",
-    ],
-    deliver: [
-      "High-converting websites",
-      "Portfolio experiences",
-      "Custom digital platforms",
-    ],
+    name: "Tailwind CSS",
+    category: "UI & Styling",
+    description: "Flexible utility-first styling for precise interfaces.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M4 15c2.2-4.2 4.8-4.2 7-1.8 2.2 2.4 4.8 2.4 7-1.8" />
+        <path d="M6 19c2.2-4.2 4.8-4.2 7-1.8 2.2 2.4 4.8 2.4 7-1.8" />
+      </svg>
+    ),
   },
   {
-    name: "Coaches",
-    icon: "◌",
-    tagline: "Turn expertise into impact.",
-    description:
-      "Digital platforms that help coaches build credibility, attract clients, and deliver their expertise online.",
-    face: [
-      "Building personal brand",
-      "Client acquisition",
-      "Managing digital content",
-    ],
-    deliver: [
-      "Personal brand websites",
-      "Booking experiences",
-      "Client-focused platforms",
-    ],
+    name: "Bootstrap",
+    category: "UI & Styling",
+    description: "Reliable UI foundations for efficient product development.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <rect x="4" y="3" width="16" height="18" rx="3" />
+        <path d="M9 7h4.2a2.3 2.3 0 0 1 0 4.6H9m0 0h4.7a2.5 2.5 0 0 1 0 5H9V7Z" />
+      </svg>
+    ),
   },
   {
-    name: "E-commerce",
-    icon: "🛒",
-    tagline: "Sell more. Make shopping effortless.",
-    description:
-      "Conversion-focused e-commerce experiences designed to make discovery, checkout, and customer journeys seamless.",
-    face: [
-      "Customer conversion",
-      "Large product catalogs",
-      "Smooth shopping journeys",
-    ],
-    deliver: [
-      "Modern online stores",
-      "Conversion-focused UX",
-      "Scalable commerce systems",
-    ],
+    name: "Node.js",
+    category: "Backend",
+    description: "Fast, scalable server-side applications and APIs.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" />
+        <path d="M9 12.2c0-1.1.8-1.8 2-1.8 1.1 0 1.8.5 2.5 1.1.6.5 1.2.8 1.9.8.9 0 1.6-.6 1.6-1.5 0-.8-.6-1.2-1.7-1.6l-1.1-.4c-1.5-.5-2.3-1.2-2.3-2.4 0-1.2 1-2 2.5-2 1.2 0 2.1.4 2.9 1.2" />
+      </svg>
+    ),
+  },
+  {
+    name: "Supabase",
+    category: "Backend",
+    description: "Modern backend infrastructure for connected applications.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M13.5 3 5 13h6l-.5 8L19 11h-6l.5-8Z" />
+      </svg>
+    ),
+  },
+  {
+    name: "MongoDB",
+    category: "Database",
+    description: "Flexible document-based data storage for modern products.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M12 3c-2 3-4.5 5.3-4.5 9.2 0 3.4 2 6.3 4.5 8.8 2.5-2.5 4.5-5.4 4.5-8.8C16.5 8.3 14 6 12 3Z" />
+        <path d="M12 9v11" />
+      </svg>
+    ),
+  },
+  {
+    name: "PostgreSQL",
+    category: "Database",
+    description: "Powerful relational data systems built for reliability.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M7 17c-1.2-2-1.5-5.5-.8-8.4C6.8 5.5 9.1 4 12 4c2.9 0 5.2 1.5 5.8 4.6.7 2.9.4 6.4-.8 8.4" />
+        <path d="M9 16c1.5 1.2 4.5 1.2 6 0M8 9c1.3-.8 2.7-.8 4 0M12 9c1.3-.8 2.7-.8 4 0" />
+        <path d="M9.5 20c.5-1.4.7-2.7.5-4M14.5 20c-.5-1.4-.7-2.7-.5-4" />
+      </svg>
+    ),
+  },
+  {
+    name: "SQL",
+    category: "Database",
+    description: "Structured data querying for robust business systems.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <ellipse cx="12" cy="6" rx="7" ry="3" />
+        <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6" />
+        <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />
+      </svg>
+    ),
   },
 ];
 
-function ArrowIcon({ className = "" }) {
+const categories = [
+  {
+    title: "Frontend",
+    text: "Interfaces built to feel fast, intuitive, and effortless.",
+  },
+  {
+    title: "UI & Styling",
+    text: "Flexible systems for clean, responsive digital experiences.",
+  },
+  {
+    title: "Backend",
+    text: "Reliable application logic, APIs, and scalable infrastructure.",
+  },
+  {
+    title: "Database",
+    text: "Secure and structured data solutions for growing products.",
+  },
+];
+
+function ArrowIcon() {
   return (
-    <svg
-      className={className}
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M5 12h13" />
       <path d="m13 6 6 6-6 6" />
     </svg>
   );
 }
 
-function CheckIcon() {
+function Technologies() {
   return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m5 12 4 4L19 6" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      width="23"
-      height="23"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    >
-      <path d="M5 5l14 14" />
-      <path d="M19 5 5 19" />
-    </svg>
-  );
-}
-
-function MenuIcon() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    >
-      <path d="M4 7h16" />
-      <path d="M4 12h16" />
-      <path d="M4 17h16" />
-    </svg>
-  );
-}
-
-function LocationIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
-      <circle cx="12" cy="10" r="2.5" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92Z" />
-    </svg>
-  );
-}
-
-function MailIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m3 7 9 6 9-6" />
-    </svg>
-  );
-}
-
-export default function Industries() {
-  const [active, setActive] = useState(industries[0]);
-  const [menu, setMenu] = useState(false);
-
-  const selectIndustry = (industry) => {
-    setActive(industry);
-    setMenu(false);
-  };
-
-  return (
-    <>
+    <div className="tech-page">
       <style>{`
-        .industries-page {
+        .tech-page {
           min-height: 100vh;
-          width: 100%;
-          margin: 0;
-          padding: 0;
           background: #ffffff;
-          color: #0f172a;
+          color: #0b1728;
           font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
-        .industries-page *,
-        .industries-page *::before,
-        .industries-page *::after {
-          box-sizing: border-box;
-        }
-
-        .industry-card {
+        .tech-nav {
+          width: 100%;
+          height: 76px;
+          border-bottom: 1px solid #e8edf3;
+          background: rgba(255,255,255,.96);
+          display: flex;
+          align-items: center;
           position: relative;
-          overflow: hidden;
-          transition:
-            transform .25s ease,
-            border-color .25s ease,
-            box-shadow .25s ease,
-            background .25s ease;
+          z-index: 20;
         }
 
-        .industry-card:hover {
-          transform: translateY(-2px);
-          border-color: #bfdbfe;
+        .tech-nav-inner {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 30px;
         }
 
-        .industry-card-active {
-          border-color: #2563eb !important;
-          background: #eff6ff !important;
-          box-shadow: 0 12px 35px rgba(37, 99, 235, .09);
+        .tech-brand {
+          width: 128px;
+          height: 42px;
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
         }
 
-        .industry-card-active::after {
+        .tech-brand img {
+          width: 112px !important;
+          height: auto !important;
+          max-height: 34px;
+          object-fit: contain;
+          object-position: left center;
+          display: block;
+        }
+
+        .tech-links {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 27px;
+          flex: 1;
+        }
+
+        .tech-links a {
+          color: #596678;
+          text-decoration: none;
+          font-size: 13px;
+          font-weight: 500;
+          transition: color .2s ease;
+          white-space: nowrap;
+        }
+
+        .tech-links a:hover,
+        .tech-links a.active {
+          color: #1264d9;
+        }
+
+        .tech-nav-right {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .tech-email {
+          color: #647184;
+          text-decoration: none;
+          font-size: 12px;
+          white-space: nowrap;
+        }
+
+        .tech-cta {
+          height: 38px;
+          padding: 0 18px;
+          border-radius: 7px;
+          background: #1264d9;
+          color: white;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: 600;
+          transition: background .2s ease, transform .2s ease;
+        }
+
+        .tech-cta:hover {
+          background: #0d55bc;
+          transform: translateY(-1px);
+        }
+
+        .tech-hero {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+          padding: 108px 0 78px;
+          text-align: center;
+        }
+
+        .tech-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          color: #1264d9;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: .13em;
+          text-transform: uppercase;
+          margin-bottom: 19px;
+        }
+
+        .tech-eyebrow::before {
           content: "";
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 3px;
-          background: #2563eb;
+          width: 24px;
+          height: 1px;
+          background: #1264d9;
         }
 
-        .industry-detail {
-          animation: industryIn .45s cubic-bezier(.22,1,.36,1) both;
+        .tech-hero h1 {
+          max-width: 760px;
+          margin: 0 auto;
+          color: #0a1525;
+          font-size: clamp(42px, 5.3vw, 68px);
+          line-height: 1.02;
+          letter-spacing: -.045em;
+          font-weight: 700;
         }
 
-        @keyframes industryIn {
-          from {
-            opacity: 0;
-            transform: translateY(14px);
+        .tech-hero h1 span {
+          color: #1264d9;
+        }
+
+        .tech-hero p {
+          max-width: 610px;
+          margin: 25px auto 0;
+          color: #6a7687;
+          font-size: 16px;
+          line-height: 1.75;
+        }
+
+        .tech-orbit {
+          width: min(980px, 100%);
+          height: 18px;
+          margin: 46px auto 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 9px;
+        }
+
+        .tech-orbit span {
+          display: block;
+          height: 4px;
+          border-radius: 99px;
+          background: #d9e7f8;
+        }
+
+        .tech-orbit span:nth-child(1) { width: 34px; }
+        .tech-orbit span:nth-child(2) { width: 70px; }
+        .tech-orbit span:nth-child(3) { width: 120px; background: #1264d9; }
+        .tech-orbit span:nth-child(4) { width: 70px; }
+        .tech-orbit span:nth-child(5) { width: 34px; }
+
+        .tech-stack-section {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+          padding: 20px 0 100px;
+        }
+
+        .tech-section-head {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 30px;
+          margin-bottom: 25px;
+        }
+
+        .tech-section-head h2 {
+          margin: 0;
+          font-size: 25px;
+          letter-spacing: -.025em;
+          color: #101d2d;
+        }
+
+        .tech-section-head p {
+          margin: 0;
+          color: #778293;
+          font-size: 13px;
+          max-width: 390px;
+          line-height: 1.6;
+          text-align: right;
+        }
+
+        .tech-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          border-top: 1px solid #e5ebf2;
+          border-left: 1px solid #e5ebf2;
+        }
+
+        .tech-card {
+          min-height: 205px;
+          padding: 27px 25px 25px;
+          border-right: 1px solid #e5ebf2;
+          border-bottom: 1px solid #e5ebf2;
+          background: #fff;
+          position: relative;
+          transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+
+        .tech-card:hover {
+          background: #f8fbff;
+          transform: translateY(-3px);
+          box-shadow: 0 15px 35px rgba(22, 67, 115, .07);
+          z-index: 2;
+        }
+
+        .tech-icon {
+          width: 43px;
+          height: 43px;
+          border-radius: 9px;
+          background: #eef6ff;
+          color: #1264d9;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 24px;
+        }
+
+        .tech-icon svg {
+          width: 23px;
+          height: 23px;
+        }
+
+        .tech-category {
+          color: #8a95a4;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: .1em;
+          font-weight: 700;
+          margin-bottom: 7px;
+        }
+
+        .tech-card h3 {
+          margin: 0;
+          color: #122034;
+          font-size: 17px;
+          font-weight: 650;
+          letter-spacing: -.015em;
+        }
+
+        .tech-card p {
+          margin: 9px 0 0;
+          color: #748092;
+          font-size: 12px;
+          line-height: 1.65;
+        }
+
+        .tech-category-section {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+          padding: 0 0 110px;
+        }
+
+        .category-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+        }
+
+        .category-card {
+          padding: 28px 25px;
+          border: 1px solid #e6ebf1;
+          border-radius: 10px;
+          background: #fbfcfe;
+        }
+
+        .category-number {
+          color: #1264d9;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: .08em;
+          margin-bottom: 22px;
+        }
+
+        .category-card h3 {
+          margin: 0;
+          color: #142135;
+          font-size: 17px;
+          letter-spacing: -.015em;
+        }
+
+        .category-card p {
+          margin: 10px 0 0;
+          color: #788494;
+          font-size: 12px;
+          line-height: 1.65;
+        }
+
+        .tech-bottom {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto 100px;
+          padding: 62px 70px;
+          border-radius: 14px;
+          background: #f3f8fe;
+          border: 1px solid #e0ebf7;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 40px;
+        }
+
+        .tech-bottom-copy {
+          max-width: 610px;
+        }
+
+        .tech-bottom-copy .small {
+          color: #1264d9;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: .12em;
+          margin-bottom: 13px;
+        }
+
+        .tech-bottom-copy h2 {
+          margin: 0;
+          color: #0e1c2d;
+          font-size: clamp(26px, 3vw, 38px);
+          line-height: 1.15;
+          letter-spacing: -.035em;
+        }
+
+        .tech-bottom-copy p {
+          margin: 14px 0 0;
+          color: #687688;
+          font-size: 13px;
+          line-height: 1.7;
+        }
+
+        .tech-bottom-link {
+          flex-shrink: 0;
+          height: 45px;
+          padding: 0 22px;
+          border-radius: 7px;
+          background: #1264d9;
+          color: white;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 12px;
+          font-weight: 650;
+          transition: background .2s ease, transform .2s ease;
+        }
+
+        .tech-bottom-link:hover {
+          background: #0d55bc;
+          transform: translateY(-1px);
+        }
+
+        .tech-bottom-link svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        .tech-footer {
+          border-top: 1px solid #e7ecf2;
+          background: #fff;
+        }
+
+        .tech-footer-inner {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+          padding: 55px 0 25px;
+        }
+
+        .tech-footer-top {
+          display: flex;
+          justify-content: space-between;
+          gap: 60px;
+          padding-bottom: 48px;
+        }
+
+        .tech-footer-brand {
+          max-width: 310px;
+        }
+
+        .tech-footer-brand img {
+          width: 112px !important;
+          height: auto !important;
+          max-height: 34px;
+          object-fit: contain;
+          object-position: left center;
+        }
+
+        .tech-footer-brand p {
+          color: #7a8593;
+          font-size: 12px;
+          line-height: 1.7;
+          margin: 17px 0 0;
+        }
+
+        .tech-footer-links h4,
+        .tech-footer-contact h4 {
+          margin: 0 0 17px;
+          color: #172438;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .tech-footer-links a {
+          display: block;
+          color: #788494;
+          text-decoration: none;
+          font-size: 12px;
+          margin-bottom: 10px;
+        }
+
+        .tech-footer-links a:hover {
+          color: #1264d9;
+        }
+
+        .tech-footer-contact p {
+          color: #788494;
+          font-size: 12px;
+          margin: 0 0 10px;
+        }
+
+        .tech-footer-bottom {
+          border-top: 1px solid #edf0f4;
+          padding-top: 19px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+        }
+
+        .tech-footer-bottom span,
+        .tech-footer-bottom a {
+          color: #9aa3ae;
+          font-size: 10px;
+          text-decoration: none;
+        }
+
+        .tech-footer-legal {
+          display: flex;
+          gap: 20px;
+        }
+
+        @media (max-width: 1000px) {
+          .tech-links {
+            gap: 17px;
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
 
-        .industry-hero {
-          background:
-            radial-gradient(circle at 50% 0%, rgba(59,130,246,.12), transparent 34%),
-            linear-gradient(to bottom, #f8fafc, #ffffff);
-        }
-
-        .industry-grid {
-          background-image:
-            linear-gradient(rgba(148,163,184,.055) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(148,163,184,.055) 1px, transparent 1px);
-          background-size: 40px 40px;
-          mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-        }
-
-        .industry-glow {
-          animation: glowFloat 5s ease-in-out infinite;
-        }
-
-        @keyframes glowFloat {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(8px);
-          }
-        }
-
-        .industry-number {
-          font-variant-numeric: tabular-nums;
-          letter-spacing: -.06em;
-        }
-
-        @media (max-width: 767px) {
-          .industries-page .desktop-nav {
+          .tech-email {
             display: none;
           }
-        }
 
-        @media (min-width: 768px) {
-          .industries-page .mobile-menu-button {
-            display: none;
+          .tech-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+
+          .category-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .industries-page *,
-          .industries-page *::before,
-          .industries-page *::after {
-            animation-duration: .01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: .01ms !important;
+        @media (max-width: 760px) {
+          .tech-nav {
+            height: 68px;
+          }
+
+          .tech-nav-inner {
+            width: min(100% - 28px, 600px);
+          }
+
+          .tech-links {
+            display: none;
+          }
+
+          .tech-nav-right {
+            margin-left: auto;
+          }
+
+          .tech-hero {
+            padding: 75px 0 60px;
+          }
+
+          .tech-hero h1 {
+            font-size: clamp(39px, 11vw, 56px);
+          }
+
+          .tech-hero p {
+            font-size: 14px;
+          }
+
+          .tech-stack-section,
+          .tech-category-section,
+          .tech-bottom,
+          .tech-footer-inner {
+            width: min(100% - 28px, 600px);
+          }
+
+          .tech-section-head {
+            display: block;
+          }
+
+          .tech-section-head p {
+            text-align: left;
+            margin-top: 10px;
+          }
+
+          .tech-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .tech-bottom {
+            padding: 40px 28px;
+            display: block;
+          }
+
+          .tech-bottom-link {
+            margin-top: 25px;
+          }
+
+          .tech-footer-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px 25px;
+          }
+
+          .tech-footer-brand {
+            grid-column: 1 / -1;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .tech-brand {
+            width: 108px;
+            height: 34px;
+          }
+
+          .tech-brand img {
+            width: 96px !important;
+            max-height: 29px;
+          }
+
+          .tech-cta {
+            height: 35px;
+            padding: 0 13px;
+            font-size: 11px;
+          }
+
+          .tech-hero {
+            padding-top: 65px;
+          }
+
+          .tech-eyebrow {
+            font-size: 10px;
+          }
+
+          .tech-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .tech-card {
+            min-height: auto;
+          }
+
+          .category-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .tech-bottom {
+            margin-bottom: 70px;
+          }
+
+          .tech-footer-top {
+            grid-template-columns: 1fr;
+          }
+
+          .tech-footer-bottom {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+
+          .tech-footer-legal {
+            gap: 14px;
           }
         }
       `}</style>
 
-      <div className="industries-page overflow-hidden">
-        <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/95 backdrop-blur-xl">
-          <div className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
-            <Link
-              to="/"
-              onClick={() => setMenu(false)}
-              className="group flex items-center gap-2.5"
-            >
-              <img
-                src={LOGO}
-                alt="Aplinode"
-                className="h-8 w-auto object-contain transition duration-300 group-hover:scale-105"
-              />
+      <header className="tech-nav">
+        <div className="tech-nav-inner">
+          <Link to="/" className="tech-brand">
+            <img src={LOGO} alt="Aplinode" />
+          </Link>
 
-              <span className="text-[19px] font-extrabold tracking-[-.04em] text-slate-900">
-                Aplinode
-              </span>
+          <nav className="tech-links">
+            <Link to="/">Home</Link>
+            <Link to="/services">Services</Link>
+            <Link to="/process">Process</Link>
+            <Link to="/technologies" className="active">
+              Technologies
             </Link>
+            <Link to="/industries">Industries</Link>
+            <Link to="/faq">FAQ</Link>
+          </nav>
 
-            <nav className="desktop-nav flex items-center gap-7">
-              <Link
-                to="/"
-                className="text-[13px] font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                Home
-              </Link>
-
-              <Link
-                to="/services"
-                className="text-[13px] font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                Services
-              </Link>
-
-              <Link
-                to="/process"
-                className="text-[13px] font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                Process
-              </Link>
-
-              <Link
-                to="/technologies"
-                className="text-[13px] font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                Technologies
-              </Link>
-
-              <Link
-                to="/industries"
-                className="text-[13px] font-semibold text-blue-600"
-              >
-                Industries
-              </Link>
-
-              <Link
-                to="/faq"
-                className="text-[13px] font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                FAQ
-              </Link>
-
-              <a
-                href="https://wa.me/923323265152"
-                target="_blank"
-                rel="noreferrer"
-                className="ml-1 inline-flex h-9 items-center gap-2 rounded-lg bg-blue-600 px-4 text-[12px] font-semibold text-white shadow-sm transition hover:bg-blue-700"
-              >
-                Get Started
-                <ArrowIcon width="15" height="15" />
-              </a>
-            </nav>
-
-            <button
-              type="button"
-              onClick={() => setMenu(!menu)}
-              className="mobile-menu-button flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-700"
-              aria-label="Toggle menu"
+          <div className="tech-nav-right">
+            <a
+              href="mailto:contact@aplinode.com"
+              className="tech-email"
             >
-              {menu ? <CloseIcon /> : <MenuIcon />}
-            </button>
+              contact@aplinode.com
+            </a>
+            <a
+              href="https://wa.me/923323265152"
+              target="_blank"
+              rel="noreferrer"
+              className="tech-cta"
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section className="tech-hero">
+          <div className="tech-eyebrow">Our Arsenal</div>
+
+          <h1>
+            The Tech Behind <span>Performance</span>
+          </h1>
+
+          <p>
+            We use modern, battle-tested technologies to build systems that
+            scale with your ambitions.
+          </p>
+
+          <div className="tech-orbit" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </section>
+
+        <section className="tech-stack-section">
+          <div className="tech-section-head">
+            <h2>Our Technology Stack</h2>
+            <p>
+              Carefully selected tools for creating reliable, scalable, and
+              high-performing digital products.
+            </p>
           </div>
 
-          {menu && (
-            <div className="border-t border-slate-100 bg-white px-5 py-5 md:hidden">
-              <div className="mx-auto flex max-w-7xl flex-col gap-1">
-                <Link
-                  to="/"
-                  onClick={() => setMenu(false)}
-                  className="rounded-lg px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  Home
-                </Link>
+          <div className="tech-grid">
+            {technologies.map((technology) => (
+              <article className="tech-card" key={technology.name}>
+                <div className="tech-icon">{technology.icon}</div>
+                <div className="tech-category">{technology.category}</div>
+                <h3>{technology.name}</h3>
+                <p>{technology.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
-                <Link
-                  to="/services"
-                  onClick={() => setMenu(false)}
-                  className="rounded-lg px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  Services
-                </Link>
+        <section className="tech-category-section">
+          <div className="tech-section-head">
+            <h2>Built Around the Right Tools</h2>
+            <p>
+              From the first interface to the underlying database, every layer
+              is chosen with the product in mind.
+            </p>
+          </div>
 
-                <Link
-                  to="/process"
-                  onClick={() => setMenu(false)}
-                  className="rounded-lg px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  Process
-                </Link>
-
-                <Link
-                  to="/technologies"
-                  onClick={() => setMenu(false)}
-                  className="rounded-lg px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  Technologies
-                </Link>
-
-                <Link
-                  to="/industries"
-                  onClick={() => setMenu(false)}
-                  className="rounded-lg bg-blue-50 px-3 py-3 text-sm font-semibold text-blue-600"
-                >
-                  Industries
-                </Link>
-
-                <Link
-                  to="/faq"
-                  onClick={() => setMenu(false)}
-                  className="rounded-lg px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  FAQ
-                </Link>
-
-                <a
-                  href="https://wa.me/923323265152"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white"
-                >
-                  Get Started
-                  <ArrowIcon />
-                </a>
-              </div>
-            </div>
-          )}
-        </header>
-
-        <main>
-          <section className="industry-hero relative overflow-hidden">
-            <div className="industry-grid pointer-events-none absolute inset-0" />
-
-            <div className="industry-glow pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/10 blur-[100px]" />
-
-            <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-16 text-center sm:px-8 sm:pt-20 lg:px-10 lg:pb-16 lg:pt-24">
-              <span className="inline-flex items-center rounded-full border border-blue-100 bg-white px-4 py-1.5 text-[11px] font-bold uppercase tracking-[.16em] text-blue-600 shadow-sm">
-                What We Build For
-              </span>
-
-              <h1 className="mx-auto mt-5 max-w-4xl text-4xl font-extrabold tracking-[-.06em] text-slate-950 sm:text-5xl lg:text-6xl">
-                Industries We{" "}
-                <span className="text-blue-600">Empower</span>
-              </h1>
-
-              <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
-                Deep domain expertise meets technical excellence. We speak
-                your industry's language.
-              </p>
-            </div>
-          </section>
-
-          <section className="bg-white py-10 sm:py-14 lg:py-16">
-            <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-              <div className="grid gap-8 lg:grid-cols-[300px_1fr] lg:gap-14">
-                <aside>
-                  <div className="lg:sticky lg:top-24">
-                    <p className="mb-4 text-[10px] font-bold uppercase tracking-[.2em] text-slate-400">
-                      Industries
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1">
-                      {industries.map((industry) => {
-                        const selected = active.name === industry.name;
-
-                        return (
-                          <button
-                            key={industry.name}
-                            type="button"
-                            onClick={() => selectIndustry(industry)}
-                            className={`industry-card flex min-h-[54px] items-center gap-3 rounded-xl border px-3 text-left ${
-                              selected
-                                ? "industry-card-active"
-                                : "border-slate-200 bg-white hover:bg-slate-50"
-                            }`}
-                          >
-                            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-base shadow-sm">
-                              {industry.icon}
-                            </span>
-
-                            <span
-                              className={`text-[12px] font-semibold ${
-                                selected
-                                  ? "text-blue-700"
-                                  : "text-slate-600"
-                              }`}
-                            >
-                              {industry.name}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </aside>
-
-                <div
-                  key={active.name}
-                  className="industry-detail rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_20px_70px_rgba(15,23,42,.07)] sm:p-8 lg:p-10"
-                >
-                  <div className="flex flex-col gap-7 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-xl">
-                          {active.icon}
-                        </div>
-
-                        <div>
-                          <p className="text-[10px] font-bold uppercase tracking-[.18em] text-blue-600">
-                            Industry
-                          </p>
-
-                          <h2 className="mt-0.5 text-3xl font-extrabold tracking-[-.045em] text-slate-950">
-                            {active.name}
-                          </h2>
-                        </div>
-                      </div>
-
-                      <h3 className="mt-7 text-xl font-bold tracking-[-.025em] text-slate-900 sm:text-2xl">
-                        {active.tagline}
-                      </h3>
-
-                      <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500">
-                        {active.description}
-                      </p>
-                    </div>
-
-                    <div className="hidden h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-3xl sm:flex">
-                      {active.icon}
-                    </div>
-                  </div>
-
-                  <div className="mt-9 grid gap-8 border-t border-slate-100 pt-8 sm:grid-cols-2">
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[.18em] text-slate-400">
-                        What You Face
-                      </p>
-
-                      <div className="mt-4 space-y-3">
-                        {active.face.map((item) => (
-                          <div
-                            key={item}
-                            className="flex items-start gap-3 text-sm text-slate-600"
-                          >
-                            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500">
-                              <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                            </span>
-
-                            <span>{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[.18em] text-blue-600">
-                        What We Deliver
-                      </p>
-
-                      <div className="mt-4 space-y-3">
-                        {active.deliver.map((item) => (
-                          <div
-                            key={item}
-                            className="flex items-start gap-3 text-sm text-slate-700"
-                          >
-                            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                              <CheckIcon />
-                            </span>
-
-                            <span>{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+          <div className="category-grid">
+            {categories.map((category, index) => (
+              <article className="category-card" key={category.title}>
+                <div className="category-number">
+                  0{index + 1}
                 </div>
-              </div>
-            </div>
-          </section>
+                <h3>{category.title}</h3>
+                <p>{category.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
-          <section className="border-y border-slate-100 bg-slate-50">
-            <div className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-3">
-              <div className="border-b border-slate-200 px-6 py-9 text-center sm:border-b-0 sm:border-r">
-                <div className="industry-number text-4xl font-extrabold text-slate-950 sm:text-5xl">
-                  9<span className="text-blue-600">+</span>
-                </div>
+        <section className="tech-bottom">
+          <div className="tech-bottom-copy">
+            <div className="small">Ready to build?</div>
+            <h2>Let’s turn the right technology into the right product.</h2>
+            <p>
+              Tell us what you are building and we’ll help you choose the
+              technology stack that fits your goals.
+            </p>
+          </div>
 
-                <p className="mt-2 text-[11px] font-bold uppercase tracking-[.18em] text-slate-400">
-                  Industries
-                </p>
-              </div>
+          <a
+            href="https://wa.me/923323265152"
+            target="_blank"
+            rel="noreferrer"
+            className="tech-bottom-link"
+          >
+            Start a Conversation
+            <ArrowIcon />
+          </a>
+        </section>
+      </main>
 
-              <div className="border-b border-slate-200 px-6 py-9 text-center sm:border-b-0 sm:border-r">
-                <div className="industry-number text-4xl font-extrabold text-slate-950 sm:text-5xl">
-                  50<span className="text-blue-600">+</span>
-                </div>
-
-                <p className="mt-2 text-[11px] font-bold uppercase tracking-[.18em] text-slate-400">
-                  Projects
-                </p>
-              </div>
-
-              <div className="px-6 py-9 text-center">
-                <div className="industry-number text-4xl font-extrabold text-slate-950 sm:text-5xl">
-                  100<span className="text-blue-600">%</span>
-                </div>
-
-                <p className="mt-2 text-[11px] font-bold uppercase tracking-[.18em] text-slate-400">
-                  Commitment
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section className="relative overflow-hidden bg-blue-600 py-16 sm:py-20">
-            <div className="pointer-events-none absolute -right-20 -top-32 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
-
-            <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
-              <p className="text-[10px] font-bold uppercase tracking-[.22em] text-blue-100">
-                Let's build together
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold tracking-[-.045em] text-white sm:text-4xl">
-                Don't see your industry?
-              </h2>
-
-              <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-blue-100 sm:text-base">
-                We adapt to any domain. Let's talk about how we can solve your
-                unique challenges.
-              </p>
-
-              <a
-                href="https://wa.me/923323265152"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-blue-600 shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Let's Talk
-                <ArrowIcon />
-              </a>
-            </div>
-          </section>
-        </main>
-
-        <footer className="border-t border-slate-100 bg-white">
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:px-10">
-            <div>
-              <Link to="/" className="inline-flex items-center gap-2.5">
-                <img
-                  src={LOGO}
-                  alt="Aplinode"
-                  className="h-8 w-auto object-contain"
-                />
-
-                <span className="text-[19px] font-extrabold tracking-[-.04em] text-slate-900">
-                  Aplinode
-                </span>
-              </Link>
-
-              <p className="mt-4 max-w-xs text-sm leading-6 text-slate-500">
+      <footer className="tech-footer">
+        <div className="tech-footer-inner">
+          <div className="tech-footer-top">
+            <div className="tech-footer-brand">
+              <img src={LOGO} alt="Aplinode" />
+              <p>
                 Crafting Modern Digital Experiences That Build Trust.
               </p>
             </div>
 
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[.16em] text-slate-900">
-                Quick Links
-              </h3>
-
-              <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3">
-                <Link
-                  to="/services"
-                  className="text-sm text-slate-500 transition hover:text-blue-600"
-                >
-                  Services
-                </Link>
-
-                <Link
-                  to="/process"
-                  className="text-sm text-slate-500 transition hover:text-blue-600"
-                >
-                  Our Process
-                </Link>
-
-                <Link
-                  to="/technologies"
-                  className="text-sm text-slate-500 transition hover:text-blue-600"
-                >
-                  Technology
-                </Link>
-
-                <Link
-                  to="/industries"
-                  className="text-sm text-blue-600"
-                >
-                  Industries
-                </Link>
-
-                <Link
-                  to="/faq"
-                  className="text-sm text-slate-500 transition hover:text-blue-600"
-                >
-                  FAQ
-                </Link>
-              </div>
+            <div className="tech-footer-links">
+              <h4>Quick Links</h4>
+              <Link to="/services">Services</Link>
+              <Link to="/process">Our Process</Link>
+              <Link to="/technologies">Technology</Link>
+              <Link to="/industries">Industries</Link>
+              <Link to="/faq">FAQ</Link>
             </div>
 
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[.16em] text-slate-900">
-                Contact Us
-              </h3>
-
-              <div className="mt-4 space-y-3">
-                <div className="flex items-center gap-3 text-sm text-slate-500">
-                  <LocationIcon />
-                  Karachi, Pakistan
-                </div>
-
-                <a
-                  href="tel:+923323265152"
-                  className="flex items-center gap-3 text-sm text-slate-500 transition hover:text-blue-600"
-                >
-                  <PhoneIcon />
-                  +92 332 326 5152
-                </a>
-
-                <a
-                  href="mailto:contact@aplinode.com"
-                  className="flex items-center gap-3 text-sm text-slate-500 transition hover:text-blue-600"
-                >
-                  <MailIcon />
-                  contact@aplinode.com
-                </a>
-              </div>
+            <div className="tech-footer-contact">
+              <h4>Contact Us</h4>
+              <p>Karachi, Pakistan</p>
+              <p>+92 332 326 5152</p>
+              <p>contact@aplinode.com</p>
             </div>
           </div>
 
-          <div className="border-t border-slate-100">
-            <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-xs text-slate-400 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
-              <p>© 2026 Aplinode</p>
+          <div className="tech-footer-bottom">
+            <span>© 2026 Aplinode</span>
 
-              <div className="flex gap-5">
-                <a
-                  href="#"
-                  className="transition hover:text-slate-700"
-                >
-                  Privacy Policy
-                </a>
-
-                <a
-                  href="#"
-                  className="transition hover:text-slate-700"
-                >
-                  Terms of Service
-                </a>
-              </div>
+            <div className="tech-footer-legal">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
             </div>
           </div>
-        </footer>
-      </div>
-    </>
+        </div>
+      </footer>
+    </div>
   );
 }
+
+export default Technologies;
+
