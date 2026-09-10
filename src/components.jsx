@@ -1,9 +1,252 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
+
+const LOGO =
+  "https://res.cloudinary.com/dca2lhkw2/image/upload/q_auto,f_auto/v1781987890/logo_xt9ve6.png";
+
+const HERO_IMAGE =
+  "https://res.cloudinary.com/dca2lhkw2/image/upload/w_1536,q_auto,f_auto/v1781987794/WhatsApp_Image_2026-06-21_at_1.35.55_AM_ukc9zz.jpg";
+
+const FOUNDER_IMAGE =
+  "https://res.cloudinary.com/dca2lhkw2/image/upload/q_auto,f_auto/v1781987865/mustafa-shahzad_vjlziu.png";
+
+function Icon({ name, className = "" }) {
+  return (
+    <span className={`material-symbols-outlined ${className}`}>
+      {name}
+    </span>
+  );
+}
+
+function Reveal({ children, className = "", delay = 0 }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      style={{ "--reveal-delay": `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function SectionHeading({ eyebrow, title, description, center = false }) {
+  return (
+    <div className={`section-heading ${center ? "center" : ""}`}>
+      <div className="section-eyebrow">
+        <span className="eyebrow-dot" />
+        {eyebrow}
+      </div>
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+    </div>
+  );
+}
+
+export function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const links = [
+    ["Home", "/"],
+    ["Services", "/services"],
+    ["Process", "/process"],
+    ["Technologies", "/technologies"],
+    ["Industries", "/industries"],
+    ["FAQ", "/faq"],
+  ];
+
+  return (
+    <header className="navbar">
+      <div className="navbar-inner">
+        <Link to="/" className="navbar-brand" onClick={() => setOpen(false)}>
+          <img src={LOGO} alt="Aplinode" />
+        </Link>
+
+        <nav className={`nav-links ${open ? "open" : ""}`}>
+          {links.map(([label, path]) => (
+            <Link
+              key={label}
+              to={path}
+              className="nav-link"
+              onClick={() => setOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
+
+          <Link
+            to="/contact"
+            className="nav-cta"
+            onClick={() => setOpen(false)}
+          >
+            Get Started
+            <Icon name="arrow_forward" />
+          </Link>
+        </nav>
+
+        <button
+          className="mobile-menu-button"
+          onClick={() => setOpen((value) => !value)}
+          aria-label="Toggle navigation"
+        >
+          <Icon name={open ? "close" : "menu"} />
+        </button>
+      </div>
+    </header>
+  );
+}
+
+export function Hero() {
+  return (
+    <>
+      <section className="hero">
+        <div className="hero-background-grid" />
+        <div className="hero-orb hero-orb-one" />
+        <div className="hero-orb hero-orb-two" />
+
+        <div className="hero-grid">
+          <Reveal className="hero-copy">
+            <div className="hero-eyebrow">
+              <span className="eyebrow-dot" />
+              Engineering Trust, Delivering Growth
+            </div>
+
+            <h1>
+              Web Development & Modern Digital Experiences{" "}
+              <span>that Build Trust</span>
+            </h1>
+
+            <p className="hero-description">
+              Aplinode is a web development agency building premium websites,
+              landing pages, web applications, dashboards, and digital
+              experiences for modern businesses.
+            </p>
+
+            <div className="hero-actions">
+              <Link to="/contact" className="btn-primary">
+                Start Your Project
+                <Icon name="trending_flat" />
+              </Link>
+
+              <a
+                href="mailto:contact@aplinode.com"
+                className="btn-secondary"
+              >
+                Book Free Consultation
+                <Icon name="calendar_month" />
+              </a>
+            </div>
+
+            <div className="hero-trust">
+              <div className="hero-trust-item">
+                <Icon name="verified" />
+                Premium Quality
+              </div>
+
+              <div className="hero-trust-item">
+                <Icon name="speed" />
+                Fast Delivery
+              </div>
+
+              <div className="hero-trust-item">
+                <Icon name="devices" />
+                Responsive First
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal className="hero-visual reveal-right" delay={150}>
+            <div className="hero-image-border">
+              <div className="hero-image-wrap">
+                <img
+                  src={HERO_IMAGE}
+                  alt="Aplinode digital project"
+                />
+                <div className="hero-image-overlay" />
+
+                <div className="hero-play">
+                  <Icon name="play_arrow" />
+                </div>
+              </div>
+            </div>
+
+            <div className="hero-floating-card hero-card-top">
+              <div className="hero-floating-icon">
+                <Icon name="speed" />
+              </div>
+              <div>
+                <strong>Fast Loading</strong>
+                <span>Optimized performance</span>
+              </div>
+            </div>
+
+            <div className="hero-floating-card hero-card-bottom">
+              <div className="hero-floating-icon">
+                <Icon name="verified_user" />
+              </div>
+              <div>
+                <strong>Secure & Scalable</strong>
+                <span>Built for growth</span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <div className="feature-strip">
+        <div className="feature-strip-inner">
+          {[
+            ["devices", "Fully Responsive"],
+            ["speed", "Fast Loading"],
+            ["search", "SEO Friendly"],
+            ["phone_iphone", "Mobile Responsive"],
+            ["verified_user", "Secure"],
+            ["upgrade", "Scalable"],
+            ["brush", "Modern Design"],
+          ].map(([icon, text]) => (
+            <div className="feature-item" key={text}>
+              <Icon name={icon} />
+              {text}
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
 
 const services = [
   {
-    icon: "⌘",
+    icon: "language",
     title: "Website Development",
+    description:
+      "High-quality websites designed around your business goals.",
     items: [
       "Professional Portfolios",
       "High-Conversion Landing Pages",
@@ -12,8 +255,10 @@ const services = [
     ],
   },
   {
-    icon: "▣",
+    icon: "layers",
     title: "Web App Development",
+    description:
+      "Powerful web applications built around real business workflows.",
     items: [
       "Custom SaaS Solutions",
       "E-commerce Marketplaces",
@@ -22,38 +267,46 @@ const services = [
     ],
   },
   {
-    icon: "▤",
+    icon: "dashboard",
     title: "Admin Panels & Dashboards",
+    description:
+      "Clean dashboards that turn complex information into useful insights.",
     items: [
       "Inventory Management",
       "CRM Integration",
       "Real-time Data Visualization",
-      "User Role Control (RBAC)",
+      "User Role Control",
     ],
   },
   {
-    icon: "◈",
+    icon: "database",
     title: "Database Solutions",
+    description:
+      "Reliable data architecture and integrations for modern applications.",
     items: [
       "Database Architecture",
-      "Real-time Sync (Firestore)",
-      "Relational Systems (Supabase)",
+      "Real-time Sync",
+      "Relational Systems",
       "Data Migration & API Design",
     ],
   },
   {
-    icon: "✦",
+    icon: "palette",
     title: "Graphic Designing",
+    description:
+      "Visual systems that make your brand consistent and memorable.",
     items: [
       "Brand Identity & Logo Design",
       "UI/UX Design",
       "Social Media Graphics",
-      "Print & Marketing Collateral",
+      "Marketing Collateral",
     ],
   },
   {
-    icon: "⚙",
+    icon: "settings_suggest",
     title: "Maintenance & Support",
+    description:
+      "Continuous improvements that keep your digital product healthy.",
     items: [
       "Security Updates & Audits",
       "Performance Monitoring",
@@ -63,369 +316,48 @@ const services = [
   },
 ];
 
-const processSteps = [
-  {
-    number: "01",
-    title: "Discovery",
-    icon: "⌕",
-    description:
-      "Understanding your business goals and target audience.",
-    detail:
-      "We start by diving deep into your vision, requirements, and challenges to ensure a strategic foundation.",
-  },
-  {
-    number: "02",
-    title: "Planning & Strategy",
-    icon: "⌖",
-    description:
-      "Mapping out architecture, timeline, and milestones.",
-    detail:
-      "We create a detailed roadmap, choose the right tech stack, and define clear deliverables for every phase.",
-  },
-  {
-    number: "03",
-    title: "UI/UX Design",
-    icon: "✦",
-    description:
-      "Crafting visually stunning and intuitive experiences.",
-    detail:
-      "High-fidelity wireframes and interactive prototypes that represent your brand perfectly.",
-  },
-  {
-    number: "04",
-    title: "Development",
-    icon: "</>",
-    description:
-      "Turning designs into fully functional code.",
-    detail:
-      "Our engineers build and integrate every component with clean code, performance optimization, and security best practices.",
-  },
-  {
-    number: "05",
-    title: "Testing & QA",
-    icon: "✓",
-    description:
-      "Rigorous quality assurance before launch.",
-    detail:
-      "We test across devices, browsers, and edge cases to ensure a flawless experience before going live.",
-  },
-  {
-    number: "06",
-    title: "Launch & Support",
-    icon: "↗",
-    description:
-      "Deploy and grow with ongoing maintenance.",
-    detail:
-      "We deploy your project, monitor performance, and provide ongoing support to keep everything running smoothly.",
-  },
-];
-
-const industries = [
-  ["🚀", "Startups"],
-  ["☁", "SaaS"],
-  ["⌂", "Restaurants"],
-  ["✚", "Clinics"],
-  ["▦", "Real Estate"],
-  ["♧", "Agencies"],
-  ["▣", "Coaches"],
-  ["◉", "Consultants"],
-  ["🛒", "E-commerce"],
-  ["?", "Your Industry?"],
-];
-
-const faqs = [
-  {
-    question: "How long does it take to build a website?",
-    answer:
-      "A typical landing page takes 1-2 weeks, while complex web applications can take 4-8 weeks depending on features and integrations.",
-  },
-  {
-    question: "Do you provide maintenance after launch?",
-    answer:
-      "Yes. We provide ongoing maintenance, security updates, performance monitoring, feature upgrades, and technical support after launch.",
-  },
-  {
-    question: "Will my website be mobile-friendly?",
-    answer:
-      "Absolutely. Every website we build follows a responsive-first approach and is optimized for mobile, tablet, and desktop devices.",
-  },
-];
-
-function Logo() {
-  return (
-    <span className="brand-logo">
-      <span>✣</span>
-      Aplinode
-    </span>
-  );
-}
-
-export function Navbar() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <header className="navbar">
-      <div className="nav-container">
-        <a href="#" className="logo">
-          <Logo />
-        </a>
-
-        <nav className={`nav-links ${open ? "open" : ""}`}>
-          <a href="#" onClick={() => setOpen(false)}>Home</a>
-          <a href="#services" onClick={() => setOpen(false)}>Services</a>
-          <a href="#process" onClick={() => setOpen(false)}>Process</a>
-          <a href="#technologies" onClick={() => setOpen(false)}>Technologies</a>
-          <a href="#industries" onClick={() => setOpen(false)}>Industries</a>
-          <a href="#faq" onClick={() => setOpen(false)}>FAQ</a>
-        </nav>
-
-        <a href="#contact" className="nav-button">
-          Get Started
-        </a>
-
-        <button
-          className="mobile-menu"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? "×" : "☰"}
-        </button>
-      </div>
-    </header>
-  );
-}
-
-function HeroDashboard() {
-  return (
-    <div className="hero-dashboard-wrap">
-      <div className="responsive-floating-card">
-        <span>▣</span>
-        <div>
-          <small>Responsiveness</small>
-          <strong>Fully Responsive</strong>
-        </div>
-      </div>
-
-      <div className="hero-dashboard">
-        <div className="dashboard-header">
-          <div className="dashboard-logo">
-            <span>✣</span>
-            <div>
-              <strong>Aplinode</strong>
-              <small>Software Solutions</small>
-            </div>
-          </div>
-
-          <div className="dashboard-overview">
-            <strong>Overview</strong>
-            <small>Track performance, projects & growth.</small>
-          </div>
-        </div>
-
-        <div className="dashboard-stats">
-          <div>
-            <span>Active Projects</span>
-            <strong>12</strong>
-            <em>↗ 24%</em>
-          </div>
-
-          <div>
-            <span>New Clients</span>
-            <strong>06</strong>
-            <em>↗ 32%</em>
-          </div>
-
-          <div>
-            <span>Completed</span>
-            <strong>05</strong>
-            <em>↗ 25%</em>
-          </div>
-
-          <div>
-            <span>Satisfaction</span>
-            <strong>98%</strong>
-            <em>↗ 8%</em>
-          </div>
-        </div>
-
-        <div className="dashboard-middle">
-          <div className="dashboard-box">
-            <div className="box-title">
-              <strong>Projects Overview</strong>
-              <span>Monthly⌄</span>
-            </div>
-
-            <div className="chart">
-              <i style={{ height: "35%" }} />
-              <i style={{ height: "52%" }} />
-              <i style={{ height: "44%" }} />
-              <i style={{ height: "68%" }} />
-              <i style={{ height: "57%" }} />
-              <i style={{ height: "79%" }} />
-              <i style={{ height: "94%" }} />
-            </div>
-          </div>
-
-          <div className="dashboard-box donut-panel">
-            <div className="box-title">
-              <strong>Projects by Service</strong>
-            </div>
-
-            <div className="donut">
-              <span>6</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="dashboard-bottom">
-          <div>
-            <div className="box-title">
-              <strong>Top Services</strong>
-            </div>
-
-            <div className="service-progress">
-              <span>Web Development</span>
-              <b>45%</b>
-            </div>
-            <div className="service-progress">
-              <span>Mobile Development</span>
-              <b>25%</b>
-            </div>
-            <div className="service-progress">
-              <span>UI/UX Design</span>
-              <b>18%</b>
-            </div>
-            <div className="service-progress">
-              <span>Other</span>
-              <b>12%</b>
-            </div>
-          </div>
-
-          <div className="dashboard-activity">
-            <div className="box-title">
-              <strong>Recent Activity</strong>
-            </div>
-
-            <p><span />New project started</p>
-            <p><span />Client meeting completed</p>
-            <p><span />Project milestone reached</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="play-circle">▶</div>
-      <span className="hero-dot hero-dot-one" />
-      <span className="hero-dot hero-dot-two" />
-    </div>
-  );
-}
-
-export function Hero() {
-  return (
-    <section className="hero">
-      <div className="hero-glow" />
-      <div className="hero-orb hero-orb-one" />
-      <div className="hero-orb hero-orb-two" />
-
-      <div className="hero-container">
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span />
-            ENGINEERING TRUST, DELIVERING GROWTH
-          </div>
-
-          <h1>
-            <span className="blue-text">Web Development</span>
-            <span>&amp; Modern Digital</span>
-            <span>Experiences that Build</span>
-            <span className="blue-text">Trust</span>
-          </h1>
-
-          <p className="hero-description">
-            Aplinode is a web development agency in Pakistan building
-            premium websites, landing pages, web applications, dashboards,
-            and automation systems for modern businesses who refuse to
-            settle for average.
-          </p>
-
-          <div className="hero-buttons">
-            <a
-              href="https://wa.me/923323265152"
-              target="_blank"
-              rel="noreferrer"
-              className="primary-button"
-            >
-              Start Your Project
-              <span>→</span>
-            </a>
-
-            <a
-              href="mailto:contact@aplinode.com"
-              className="secondary-button"
-            >
-              Book Free Consultation
-            </a>
-          </div>
-
-          <div className="hero-features">
-            <span>⚡ Fast Loading</span>
-            <span>⌕ SEO Friendly</span>
-            <span>▣ Mobile Responsive</span>
-            <span>✓ Secure</span>
-            <span>↗ Scalable</span>
-            <span>✦ Modern Design</span>
-          </div>
-        </div>
-
-        <div className="hero-visual">
-          <HeroDashboard />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function Services() {
-  const [active, setActive] = useState(0);
-
   return (
-    <section className="services-section" id="services">
-      <div className="section-container">
-        <div className="section-heading">
-          <span className="section-label">WHAT WE BUILD</span>
-
-          <h2>
-            Solutions Crafted For <span>Impact</span>
-          </h2>
-
-          <p>
-            From concept to deployment, we engineer digital products that
-            give your business a competitive edge.
-          </p>
-        </div>
+    <section className="section services-section">
+      <div className="container">
+        <Reveal>
+          <SectionHeading
+            eyebrow="What We Do"
+            title="Solutions Crafted For Impact"
+            description="From concept to deployment, we engineer digital products that give your business a competitive edge."
+          />
+        </Reveal>
 
         <div className="services-grid">
           {services.map((service, index) => (
-            <article
-              className={`service-card ${active === index ? "active" : ""}`}
-              key={service.title}
-              onMouseEnter={() => setActive(index)}
-            >
-              <div className="service-icon">{service.icon}</div>
-
-              <h3>{service.title}</h3>
-
-              <div className="service-items">
-                {service.items.map((item) => (
-                  <div key={item}>
-                    <span>✓</span>
-                    {item}
+            <Reveal key={service.title} delay={index * 70}>
+              <article className="service-card">
+                <div className="service-card-top">
+                  <div className="service-icon">
+                    <Icon name={service.icon} />
                   </div>
-                ))}
-              </div>
+                  <span className="service-number">
+                    0{index + 1}
+                  </span>
+                </div>
 
-              <span className="service-card-arrow">↗</span>
-            </article>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+
+                <ul className="service-list">
+                  {service.items.map((item) => (
+                    <li key={item}>
+                      <Icon name="check_circle" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="service-arrow">
+                  <Icon name="arrow_forward" />
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -433,70 +365,71 @@ export function Services() {
   );
 }
 
-export function WhyChooseUs() {
-  const reasons = [
-    ["✦", "Premium UI", "World-class visual aesthetics."],
-    ["◉", "Conversion Focused", "Designed to turn visitors into leads."],
-    ["ϟ", "Fast Delivery", "Rapid development cycles."],
-    ["↗", "Startup Friendly", "Scalable foundations for growth."],
-  ];
+const reasons = [
+  {
+    icon: "palette",
+    title: "Premium UI",
+    description: "World-class visual aesthetics.",
+  },
+  {
+    icon: "ads_click",
+    title: "Conversion Focused",
+    description: "Designed to turn visitors into leads.",
+  },
+  {
+    icon: "bolt",
+    title: "Fast Delivery",
+    description: "Rapid development cycles.",
+  },
+  {
+    icon: "rocket_launch",
+    title: "Startup Friendly",
+    description: "Scalable foundations for growth.",
+  },
+];
 
+export function WhyAplinode() {
   return (
-    <section className="why-section">
-      <div className="section-container why-grid">
-        <div className="why-content">
-          <span className="section-label">WHY APLINODE</span>
+    <section className="section why-section">
+      <div className="container">
+        <div className="why-layout">
+          <Reveal className="why-copy">
+            <div className="section-eyebrow">
+              <span className="eyebrow-dot" />
+              Why Aplinode
+            </div>
 
-          <h2>
-            Why Businesses Choose <span>Aplinode</span>
-          </h2>
+            <h2>Why Businesses Choose Aplinode</h2>
 
-          <p>
-            We don't just write code; we solve business problems. Our
-            approach combines technical expertise with a deep understanding
-            of marketing and user psychology.
-          </p>
+            <p>
+              We don't just write code; we solve business problems. Our
+              approach combines technical expertise with a deep understanding
+              of design, marketing, and user experience.
+            </p>
+
+            <Link to="/contact" className="text-link">
+              Start a conversation
+              <Icon name="arrow_forward" />
+            </Link>
+          </Reveal>
 
           <div className="reasons-grid">
-            {reasons.map(([icon, title, text]) => (
-              <div className="reason-card" key={title}>
-                <span>{icon}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </div>
+            {reasons.map((reason, index) => (
+              <Reveal key={reason.title} delay={index * 90}>
+                <article className="reason-card">
+                  <div className="reason-icon">
+                    <Icon name={reason.icon} />
+                  </div>
+
+                  <span className="reason-index">
+                    0{index + 1}
+                  </span>
+
+                  <h3>{reason.title}</h3>
+                  <p>{reason.description}</p>
+                </article>
+              </Reveal>
             ))}
-          </div>
-        </div>
-
-        <div className="roadmap-card">
-          <div className="roadmap-top">
-            <div>
-              <small>Project Roadmap</small>
-              <strong>Active Status</strong>
-            </div>
-            <span>85%</span>
-          </div>
-
-          <div className="roadmap-status">
-            <span />
-            Milestone 4: Development
-          </div>
-
-          <div className="roadmap-progress">
-            <div />
-          </div>
-
-          <div className="roadmap-bottom">
-            <span>85% Complete</span>
-            <span>100%</span>
-          </div>
-
-          <div className="qa-box">
-            <span>✓</span>
-            <div>
-              <small>Quality Assurance</small>
-              <strong>Ready for final testing</strong>
-            </div>
           </div>
         </div>
       </div>
@@ -505,148 +438,327 @@ export function WhyChooseUs() {
 }
 
 export function Process() {
-  const [active, setActive] = useState(0);
-  const step = processSteps[active];
-
   return (
-    <section className="process-section" id="process">
-      <div className="section-container">
-        <div className="section-heading">
-          <span className="section-label">OUR MASTERPLAN</span>
-
-          <h2>
-            The <span>Masterplan</span>
-          </h2>
-
-          <p>
-            Our systematic approach to engineering excellence.
-          </p>
-        </div>
-
-        <div className="process-layout">
-          <div className="process-list">
-            {processSteps.map((item, index) => (
-              <button
-                type="button"
-                className={`process-item ${active === index ? "active" : ""}`}
-                key={item.number}
-                onClick={() => setActive(index)}
-              >
-                <span className="process-item-number">
-                  {item.number}
-                </span>
-
-                <span className="process-item-icon">
-                  {item.icon}
-                </span>
-
-                <span className="process-item-text">
-                  <small>Step {item.number}</small>
-                  <strong>{item.title}</strong>
-                </span>
-
-                <span>→</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="process-detail" key={active}>
-            <div className="process-detail-top">
-              <div className="process-big-icon">{step.icon}</div>
-              <span>{step.number}</span>
-            </div>
-
-            <small>STEP {step.number}</small>
-
-            <h3>{step.title}</h3>
-
-            <p className="process-main-description">
-              {step.description}
-            </p>
-
-            <div className="process-detail-line" />
-
-            <p className="process-detail-text">
-              {step.detail}
-            </p>
-
-            <div className="process-progress">
+    <section className="roadmap-section">
+      <div className="container">
+        <Reveal>
+          <div className="roadmap-card">
+            <div className="roadmap-top">
               <div>
-                <span>PROCESS</span>
-                <strong>
-                  {active + 1} / {processSteps.length}
-                </strong>
+                <span className="roadmap-label">
+                  Project Roadmap
+                </span>
+                <h3>Milestone 4: Development</h3>
               </div>
 
-              <div className="process-track">
-                <div
-                  style={{
-                    width: `${((active + 1) / processSteps.length) * 100}%`,
-                  }}
-                />
+              <div className="roadmap-status">
+                <span />
+                Active Status
               </div>
             </div>
+
+            <div className="roadmap-title-row">
+              <span>Development Progress</span>
+              <strong>85%</strong>
+            </div>
+
+            <div className="roadmap-progress">
+              <span />
+            </div>
+
+            <div className="roadmap-meta">
+              <span>Milestone 4</span>
+
+              <div className="roadmap-mini-progress">
+                <span />
+              </div>
+
+              <span>100% Quality Assurance</span>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-export function Technologies() {
-  const groups = [
-    {
-      icon: "</>",
-      title: "Frontend",
-      items: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "Bootstrap"],
-    },
-    {
-      icon: "▣",
-      title: "Backend & DB",
-      items: ["Supabase", "Firebase", "Node.js", "PostgreSQL"],
-    },
-    {
-      icon: "⚒",
-      title: "Tools & Cloud",
-      items: ["Vercel", "Git / GitHub", "Figma", "Docker"],
-    },
-    {
-      icon: "◉",
-      title: "Next Gen",
-      items: ["AI Assisted Dev", "AI Research", "Generative UI"],
-    },
-  ];
+const masterplanSteps = [
+  {
+    icon: "search",
+    title: "Discovery",
+    short: "Understand the vision",
+    progress: 15,
+    description:
+      "We start by diving deep into your vision, requirements, target audience, and challenges to create a strategic foundation.",
+    current: "Business Discovery",
+    time: "1–2 Days",
+    deliverables: "Project Brief",
+  },
+  {
+    icon: "route",
+    title: "Planning & Strategy",
+    short: "Build the roadmap",
+    progress: 30,
+    description:
+      "We create a detailed roadmap, choose the right technology stack, and define clear deliverables for every phase.",
+    current: "Project Planning",
+    time: "2–4 Days",
+    deliverables: "Technical Roadmap",
+  },
+  {
+    icon: "design_services",
+    title: "UI/UX Design",
+    short: "Design the experience",
+    progress: 48,
+    description:
+      "High-fidelity wireframes and polished interfaces create an intuitive digital experience that represents your brand.",
+    current: "Interface Design",
+    time: "3–7 Days",
+    deliverables: "UI/UX System",
+  },
+  {
+    icon: "code",
+    title: "Development",
+    short: "Build the product",
+    progress: 85,
+    description:
+      "Our engineers build and integrate every component with clean code, responsive layouts, performance optimization, and security best practices.",
+    current: "Development",
+    time: "1–4 Weeks",
+    deliverables: "Working Product",
+  },
+  {
+    icon: "verified",
+    title: "Testing & QA",
+    short: "Validate everything",
+    progress: 95,
+    description:
+      "We test across devices, browsers, responsive breakpoints, and edge cases to ensure a reliable experience before launch.",
+    current: "Quality Assurance",
+    time: "2–5 Days",
+    deliverables: "QA Report",
+  },
+  {
+    icon: "rocket_launch",
+    title: "Launch & Support",
+    short: "Go live & grow",
+    progress: 100,
+    description:
+      "We deploy your project, monitor performance, and provide ongoing support to keep everything running smoothly.",
+    current: "Production Launch",
+    time: "Ongoing",
+    deliverables: "Live Product",
+  },
+];
+
+export function Masterplan() {
+  const [active, setActive] = useState(0);
+  const step = masterplanSteps[active];
 
   return (
-    <section className="technology-section" id="technologies">
-      <div className="section-container">
-        <div className="section-heading">
-          <span className="section-label">OUR ARSENAL</span>
+    <section className="section masterplan-section">
+      <div className="container">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Our Process"
+            title="The Masterplan"
+            description="Our systematic approach to engineering excellence."
+          />
+        </Reveal>
 
-          <h2>
-            The Tech Behind <span>Performance</span>
-          </h2>
+        <Reveal delay={100}>
+          <div className="masterplan-dashboard">
+            <aside className="masterplan-sidebar">
+              <div className="masterplan-sidebar-head">
+                <span>Project Journey</span>
 
-          <p>
-            We use modern, battle-tested technologies to build systems
-            that scale with your ambitions.
-          </p>
-        </div>
-
-        <div className="tech-grid">
-          {groups.map((group) => (
-            <div className="tech-card" key={group.title}>
-              <div className="tech-card-top">
-                <span>{group.icon}</span>
-                <h3>{group.title}</h3>
+                <span className="masterplan-live">
+                  <i />
+                  Live
+                </span>
               </div>
 
-              <div className="tech-tags">
-                {group.items.map((item) => (
-                  <span key={item}>{item}</span>
+              <div className="masterplan-nav">
+                {masterplanSteps.map((item, index) => (
+                  <button
+                    key={item.title}
+                    className={`masterplan-nav-item ${
+                      active === index ? "active" : ""
+                    }`}
+                    onClick={() => setActive(index)}
+                  >
+                    <span className="masterplan-nav-number">
+                      0{index + 1}
+                    </span>
+
+                    <span className="masterplan-nav-icon">
+                      <Icon name={item.icon} />
+                    </span>
+
+                    <span className="masterplan-nav-copy">
+                      <strong>{item.title}</strong>
+                      <small>{item.short}</small>
+                    </span>
+
+                    <Icon
+                      name="chevron_right"
+                      className="masterplan-chevron"
+                    />
+                  </button>
                 ))}
               </div>
+            </aside>
+
+            <div className="masterplan-content">
+              <div className="masterplan-content-top">
+                <div>
+                  <span className="masterplan-badge">
+                    Phase {active + 1} of 6
+                  </span>
+
+                  <h3>{step.title}</h3>
+
+                  <p>{step.description}</p>
+                </div>
+
+                <div className="masterplan-complete">
+                  <span>Completion</span>
+                  <strong>{step.progress}%</strong>
+                </div>
+              </div>
+
+              <div className="masterplan-progress-line">
+                <span style={{ width: `${step.progress}%` }} />
+              </div>
+
+              <div className="masterplan-details">
+                <div className="masterplan-detail-card">
+                  <div className="masterplan-detail-icon">
+                    <Icon name="track_changes" />
+                  </div>
+
+                  <div>
+                    <small>Current Phase</small>
+                    <strong>{step.current}</strong>
+                  </div>
+                </div>
+
+                <div className="masterplan-detail-card">
+                  <div className="masterplan-detail-icon">
+                    <Icon name="schedule" />
+                  </div>
+
+                  <div>
+                    <small>Estimated Time</small>
+                    <strong>{step.time}</strong>
+                  </div>
+                </div>
+
+                <div className="masterplan-detail-card">
+                  <div className="masterplan-detail-icon">
+                    <Icon name="inventory_2" />
+                  </div>
+
+                  <div>
+                    <small>Deliverables</small>
+                    <strong>{step.deliverables}</strong>
+                  </div>
+                </div>
+
+                <div className="masterplan-detail-card">
+                  <div className="masterplan-detail-icon">
+                    <Icon name="verified_user" />
+                  </div>
+
+                  <div>
+                    <small>Quality Gate</small>
+                    <strong>Ready for next phase</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="masterplan-description">
+                <span>Phase Objective</span>
+                <p>{step.description}</p>
+              </div>
+
+              <div className="masterplan-bottom">
+                <div className="masterplan-check">
+                  <Icon name="check_circle" />
+                  Clear deliverables
+                </div>
+
+                <div className="masterplan-check">
+                  <Icon name="check_circle" />
+                  Quality focused
+                </div>
+
+                <div className="masterplan-check">
+                  <Icon name="check_circle" />
+                  Client aligned
+                </div>
+              </div>
             </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+const technologies = [
+  {
+    icon: "terminal",
+    title: "Frontend",
+    items: ["HTML5", "CSS3", "JavaScript", "React", "Tailwind CSS"],
+  },
+  {
+    icon: "storage",
+    title: "Backend & DB",
+    items: ["Node.js", "Express", "MongoDB", "Firebase", "Supabase"],
+  },
+  {
+    icon: "handyman",
+    title: "Tools & Cloud",
+    items: ["Vercel", "Git", "GitHub", "Figma", "Cloudinary"],
+  },
+  {
+    icon: "psychology",
+    title: "Next Gen",
+    items: ["Python", "AI", "Automation", "Generative UI"],
+  },
+];
+
+export function Technologies() {
+  return (
+    <section className="section tech-section">
+      <div className="container">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Our Arsenal"
+            title="The Tech Behind Performance"
+            description="We use modern, battle-tested technologies to build systems that scale with your ambitions."
+            center
+          />
+        </Reveal>
+
+        <div className="tech-grid">
+          {technologies.map((technology, index) => (
+            <Reveal key={technology.title} delay={index * 80}>
+              <article className="tech-card">
+                <div className="tech-icon">
+                  <Icon name={technology.icon} />
+                </div>
+
+                <h3>{technology.title}</h3>
+
+                <div className="tech-list">
+                  {technology.items.map((item) => (
+                    <span key={item}>{item}</span>
+                  ))}
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -656,57 +768,85 @@ export function Technologies() {
 
 export function Founder() {
   return (
-    <section className="founder-section">
-      <div className="section-container founder-grid">
-        <div className="founder-image">
-          <img
-            src="https://res.cloudinary.com/dca2lhkw2/image/upload/q_auto/f_auto/v1781987865/mustafa-shahzad_vjlziu.png"
-            alt="Mustafa Shahzad"
-          />
-        </div>
+    <section className="section founder-section">
+      <div className="container">
+        <div className="founder-grid">
+          <Reveal className="founder-visual reveal-left">
+            <div className="founder-image-wrap">
+              <img src={FOUNDER_IMAGE} alt="Mustafa Shahzad" />
+            </div>
 
-        <div className="founder-content">
-          <span className="section-label">VISIONARY</span>
+            <div className="founder-image-label">
+              <Icon name="verified" />
+              Visionary Leadership
+            </div>
+          </Reveal>
 
-          <h2>
-            Founded by engineers with a passion for
-            <span> world-class digital experiences.</span>
-          </h2>
+          <Reveal className="founder-copy" delay={150}>
+            <div className="section-eyebrow">
+              <span className="eyebrow-dot" />
+              Visionary
+            </div>
 
-          <div className="founder-line" />
+            <h2>Building Digital Experiences With Purpose</h2>
 
-          <h3>Mustafa Shahzad</h3>
-          <p>Co-Founder</p>
+            <p>
+              Founded by engineers with a passion for world-class digital
+              experiences, Aplinode focuses on building products that look
+              exceptional and perform even better.
+            </p>
+
+            <div className="founder-meta">
+              <div className="founder-avatar">
+                <img src={FOUNDER_IMAGE} alt="Mustafa Shahzad" />
+              </div>
+
+              <div>
+                <strong>Mustafa Shahzad</strong>
+                <span>Co-Founder</span>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
   );
 }
+
+const industries = [
+  ["rocket_launch", "Startups"],
+  ["cloud", "SaaS"],
+  ["restaurant", "Restaurants"],
+  ["medical_services", "Clinics"],
+  ["apartment", "Real Estate"],
+  ["groups", "Agencies"],
+  ["school", "Coaches"],
+  ["psychology", "Consultants"],
+  ["shopping_cart", "E-commerce"],
+  ["help_outline", "Your Industry?"],
+];
 
 export function Industries() {
   return (
-    <section className="industries-section" id="industries">
-      <div className="section-container">
-        <div className="section-heading">
-          <span className="section-label">WHO WE SERVE</span>
-
-          <h2>
-            Industries We <span>Empower</span>
-          </h2>
-
-          <p>
-            Digital solutions designed around the unique needs of modern
-            industries.
-          </p>
-        </div>
+    <section className="section industries-section">
+      <div className="container">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Who We Serve"
+            title="Industries We Empower"
+            description="Digital solutions tailored for ambitious businesses across different industries."
+            center
+          />
+        </Reveal>
 
         <div className="industries-grid">
-          {industries.map(([icon, name]) => (
-            <div className="industry-card" key={name}>
-              <span>{icon}</span>
-              <strong>{name}</strong>
-              <small>Explore →</small>
-            </div>
+          {industries.map(([icon, title], index) => (
+            <Reveal key={title} delay={index * 45}>
+              <div className="industry-card">
+                <Icon name={icon} />
+                <span>{title}</span>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -714,87 +854,122 @@ export function Industries() {
   );
 }
 
-export function Testimonials() {
+export function Testimonial() {
   return (
-    <section className="testimonial-section">
-      <div className="section-container">
-        <div className="section-heading">
-          <span className="section-label">CLIENT STORIES</span>
+    <section className="section testimonial-section">
+      <div className="container">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Client Feedback"
+            title="What Our Clients Say"
+            description="Real feedback from businesses we've helped grow."
+            center
+          />
+        </Reveal>
 
-          <h2>
-            What Our <span>Clients Say</span>
-          </h2>
-
-          <p>
-            Real feedback from businesses we've helped grow.
-          </p>
-        </div>
-
-        <div className="testimonial-card">
-          <div className="quote-mark">“</div>
-
-          <p>
-            Thanks brother I'm very satisfied with your service and price
-            hope to do more good business together in future 🤝
-          </p>
-
-          <div className="testimonial-footer">
-            <div className="client-icon">⌂</div>
-
-            <div>
-              <strong>Trendz Automotive</strong>
-              <small>Business Client</small>
+        <Reveal delay={100}>
+          <article className="testimonial-card">
+            <div className="testimonial-quote">
+              <Icon name="format_quote" />
             </div>
 
-            <a
-              href="https://trendzautomotive.com/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Visit ↗
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+            <div className="testimonial-content">
+              <h2>Trusted by businesses</h2>
 
-export function FAQ() {
-  const [open, setOpen] = useState(0);
+              <blockquote>
+                “Thanks brother I'm very satisfied with your service and price
+                hope to do more good business together in future.”
+              </blockquote>
 
-  return (
-    <section className="faq-section" id="faq">
-      <div className="section-container faq-container">
-        <div className="section-heading">
-          <span className="section-label">FAQ</span>
+              <div className="testimonial-author">
+                <div className="testimonial-avatar">
+                  <Icon name="business" />
+                </div>
 
-          <h2>
-            Frequently Asked <span>Questions</span>
-          </h2>
-        </div>
-
-        <div className="faq-list">
-          {faqs.map((faq, index) => (
-            <div
-              className={`faq-item ${open === index ? "open" : ""}`}
-              key={faq.question}
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  setOpen(open === index ? -1 : index)
-                }
-              >
-                <span>{faq.question}</span>
-                <b>{open === index ? "−" : "+"}</b>
-              </button>
-
-              <div className="faq-answer">
-                <p>{faq.answer}</p>
+                <div>
+                  <strong>Trendz Automotive</strong>
+                  <span>Business Client</span>
+                </div>
               </div>
             </div>
-          ))}
+          </article>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+const faqs = [
+  {
+    question: "How long does it take to build a website?",
+    answer:
+      "A typical landing page takes 1–2 weeks, while complex web applications can take 4–8 weeks depending on features and integrations.",
+  },
+  {
+    question: "Do you provide maintenance after launch?",
+    answer:
+      "Yes. Ongoing maintenance can include hosting management, security updates, performance optimization, and future feature improvements.",
+  },
+  {
+    question: "Will my website be mobile-friendly?",
+    answer:
+      "Absolutely. Every product is designed responsively so it works smoothly across smartphones, tablets, laptops, and desktop screens.",
+  },
+];
+
+export function FAQ() {
+  const [active, setActive] = useState(0);
+
+  return (
+    <section className="section faq-section">
+      <div className="container">
+        <div className="faq-grid">
+          <Reveal className="faq-intro">
+            <div className="section-eyebrow">
+              <span className="eyebrow-dot" />
+              FAQ
+            </div>
+
+            <h2>Frequently Asked Questions</h2>
+
+            <p>
+              Everything you need to know before starting your next digital
+              project.
+            </p>
+          </Reveal>
+
+          <div className="faq-list">
+            {faqs.map((faq, index) => (
+              <Reveal key={faq.question} delay={index * 70}>
+                <div className="faq-item">
+                  <button
+                    className="faq-question"
+                    onClick={() =>
+                      setActive(active === index ? -1 : index)
+                    }
+                  >
+                    <span>{faq.question}</span>
+
+                    <Icon
+                      name={
+                        active === index
+                          ? "remove"
+                          : "add"
+                      }
+                    />
+                  </button>
+
+                  <div
+                    className={`faq-answer ${
+                      active === index ? "open" : ""
+                    }`}
+                  >
+                    <p>{faq.answer}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -804,35 +979,43 @@ export function FAQ() {
 export function CTA() {
   return (
     <section className="cta-section">
-      <div className="cta-container">
-        <span className="section-label">LET'S BUILD</span>
+      <div className="cta-glow cta-glow-one" />
+      <div className="cta-glow cta-glow-two" />
 
-        <h2>
-          Let's Build Something <span>Exceptional</span>
-        </h2>
+      <div className="container">
+        <Reveal>
+          <div className="cta-inner">
+            <div className="section-eyebrow">
+              <span className="eyebrow-dot" />
+              Ready When You Are
+            </div>
 
-        <p>
-          Transform your vision into a world-class digital reality.
-          Your business deserves better than "good enough."
-        </p>
+            <h2>Let's Build Something Exceptional</h2>
 
-        <div className="cta-buttons">
-          <a
-            href="https://wa.me/923323265152"
-            target="_blank"
-            rel="noreferrer"
-            className="primary-button"
-          >
-            WhatsApp Us Now →
-          </a>
+            <p>
+              Transform your vision into a world-class digital reality. Your
+              business deserves better than "good enough."
+            </p>
 
-          <a
-            href="mailto:contact@aplinode.com"
-            className="cta-outline-button"
-          >
-            Schedule Consultation
-          </a>
-        </div>
+            <div className="cta-actions">
+              <a
+                href="mailto:contact@aplinode.com"
+                className="btn-primary"
+              >
+                Schedule Consultation
+                <Icon name="calendar_month" />
+              </a>
+
+              <a
+                href="mailto:contact@aplinode.com"
+                className="btn-secondary"
+              >
+                Email Us
+                <Icon name="mail" />
+              </a>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -840,49 +1023,117 @@ export function CTA() {
 
 export function Contact() {
   return (
-    <section className="contact-section" id="contact">
-      <div className="section-container contact-grid">
-        <div className="contact-intro">
-          <span className="section-label">CONTACT</span>
-
-          <h2>
-            Let's connect and bring your
-            <span> ideas to life.</span>
-          </h2>
-        </div>
-
-        <div className="contact-details">
-          <div>
-            <span>⌖</span>
-            <div>
-              <small>Address</small>
-              <strong>Karachi, Pakistan</strong>
+    <section className="contact-section">
+      <div className="container">
+        <div className="contact-grid">
+          <Reveal className="contact-copy">
+            <div className="section-eyebrow">
+              <span className="eyebrow-dot" />
+              Contact Us
             </div>
-          </div>
 
-          <div>
-            <span>☎</span>
-            <div>
-              <small>Phone</small>
-              <strong>+92 332 326 5152</strong>
-            </div>
-          </div>
+            <h2>Let's connect and bring your ideas to life.</h2>
 
-          <div>
-            <span>✉</span>
-            <div>
-              <small>Email</small>
-              <strong>contact@aplinode.com</strong>
-            </div>
-          </div>
+            <p>
+              Have a project in mind? Tell us what you're building and let's
+              turn the idea into a digital experience.
+            </p>
 
-          <div>
-            <span>◉</span>
-            <div>
-              <small>Website</small>
-              <strong>aplinode.com</strong>
+            <div className="contact-details">
+              <div className="contact-detail">
+                <div className="contact-detail-icon">
+                  <Icon name="location_on" />
+                </div>
+
+                <div>
+                  <small>Address</small>
+                  <strong>Karachi, Pakistan</strong>
+                </div>
+              </div>
+
+              <div className="contact-detail">
+                <div className="contact-detail-icon">
+                  <Icon name="call" />
+                </div>
+
+                <div>
+                  <small>Phone</small>
+                  <strong>+92 332 326 5152</strong>
+                </div>
+              </div>
+
+              <div className="contact-detail">
+                <div className="contact-detail-icon">
+                  <Icon name="mail" />
+                </div>
+
+                <div>
+                  <small>Email</small>
+                  <strong>contact@aplinode.com</strong>
+                </div>
+              </div>
             </div>
-          </div>
+          </Reveal>
+
+          <Reveal className="contact-form-wrap reveal-right" delay={120}>
+            <form className="contact-form">
+              <div className="contact-form-grid">
+                <div className="form-group">
+                  <label htmlFor="name">Your Name</label>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="john@example.com"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="phone">Phone Number</label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    placeholder="+92 300 0000000"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="service">Service</label>
+                  <select id="service" defaultValue="">
+                    <option value="" disabled>
+                      Select a service
+                    </option>
+                    <option>Website Development</option>
+                    <option>Web App Development</option>
+                    <option>Admin Dashboard</option>
+                    <option>UI/UX Design</option>
+                    <option>Maintenance & Support</option>
+                  </select>
+                </div>
+
+                <div className="form-group full">
+                  <label htmlFor="message">Project Details</label>
+                  <textarea
+                    id="message"
+                    placeholder="Tell us a little about your project..."
+                  />
+                </div>
+              </div>
+
+              <button type="button" className="btn-primary">
+                Send Inquiry
+                <Icon name="arrow_forward" />
+              </button>
+            </form>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -892,73 +1143,42 @@ export function Contact() {
 export function Footer() {
   return (
     <footer className="footer">
-      <div className="section-container footer-grid">
-        <div className="footer-brand">
-          <Logo />
+      <div className="container">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <Link to="/">
+              <img src={LOGO} alt="Aplinode" />
+            </Link>
 
-          <p>
-            Crafting Modern Digital Experiences That Build Trust.
-          </p>
+            <p>
+              Crafting Modern Digital Experiences That Build Trust.
+            </p>
+          </div>
 
-          <div className="social-links">
-            <a
-              href="https://github.com/aplinode"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
+          <div className="footer-column">
+            <h4>Quick Links</h4>
+            <Link to="/services">Services</Link>
+            <Link to="/process">Our Process</Link>
+            <Link to="/technologies">Technology</Link>
+            <Link to="/industries">Industries</Link>
+            <Link to="/faq">FAQ</Link>
+          </div>
 
-            <a
-              href="https://wa.me/923323265152"
-              target="_blank"
-              rel="noreferrer"
-            >
-              WhatsApp
-            </a>
-
-            <a
-              href="https://www.instagram.com/aplinode/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Instagram
-            </a>
-
-            <a
-              href="https://www.facebook.com/aplinode"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Facebook
-            </a>
+          <div className="footer-column">
+            <h4>Contact Us</h4>
+            <span>Karachi, Pakistan</span>
+            <span>+92 332 326 5152</span>
+            <span>contact@aplinode.com</span>
           </div>
         </div>
 
-        <div>
-          <h4>Quick Links</h4>
+        <div className="footer-bottom">
+          <span>© 2026 Aplinode. All rights reserved.</span>
 
-          <a href="#services">Services</a>
-          <a href="#process">Our Process</a>
-          <a href="#technologies">Technology</a>
-          <a href="#industries">Industries</a>
-          <a href="#faq">FAQ</a>
-        </div>
-
-        <div>
-          <h4>Contact Us</h4>
-
-          <a href="#contact">Karachi, Pakistan</a>
-          <a href="tel:+923323265152">+92 332 326 5152</a>
-          <a href="mailto:contact@aplinode.com">
-            contact@aplinode.com
-          </a>
-        </div>
-      </div>
-
-      <div className="footer-bottom">
-        <div className="section-container">
-          © 2026 Aplinode. All rights reserved.
+          <div>
+            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/terms">Terms of Service</Link>
+          </div>
         </div>
       </div>
     </footer>

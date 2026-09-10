@@ -1,18 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import {
-  Navbar,
-  Hero,
-  Services,
-  Process
-} from "./components";
+import { Routes, Route } from "react-router";
+import Home from "./pages/Home";
+import Services from "./pages/Services";
+import Process from "./pages/Process";
+import Technologies from "./pages/Technologies";
+import Industries from "./pages/Industries";
+import FAQ from "./pages/FAQ";
+import Contact from "./pages/Contact";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Navbar />
-    <Hero />
-    <Services />
-    <Process />
-  </React.StrictMode>
-);
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/process" element={<Process />} />
+      <Route path="/technologies" element={<Technologies />} />
+      <Route path="/industries" element={<Industries />} />
+      <Route path="/faq" element={<FAQ />} />
+      <Route path="/contact" element={<Contact />} />
+    </Routes>
+  );
+}
+
+export default App;
