@@ -70,8 +70,8 @@ Process
 Technologies
 Industries
 FAQ
-Contact ```
-
+Contact
+ ```
 
 🎨 Design
 
@@ -102,13 +102,18 @@ src/
 ├── components.jsx
 ├── index.css
 └── main.jsx
+
 ⚙️ Run Locally
+
 git clone https://github.com/Faizan-khan144/aplinode-clone.git
 cd aplinode-clone
 npm install
 npm run dev
+
 🌐 Live Website
+
 Visit Aplinode Clone →
+
 👨‍💻 Author
 Muhammad Faizan Khan
 
