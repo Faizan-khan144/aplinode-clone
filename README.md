@@ -101,7 +101,10 @@ Interactive Sections
      ↓
 Professional UI
 ```
-```📂 Project Structure
+📂 Project Structure
+
+```text
+
 aplinode-clone/
 │
 ├── public/
