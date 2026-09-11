@@ -150,7 +150,7 @@ npm run build
 🚀 Open Aplinode Clone
 </div>
 
-##🎯 Purpose
+## 🎯 Purpose
 
 This project was created to:
 
@@ -182,10 +182,11 @@ It is not an official Aplinode website or product.
 All original branding and intellectual property belong to their respective owners.
 
 <div align="center">
+  
 ⭐ Like the project?
 Give it a star on GitHub!
 <br>
 
 Built with React & passion by Muhammad Faizan Khan
 
-</div> ```
+</div>
