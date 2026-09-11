@@ -101,7 +101,7 @@ Interactive Sections
      ↓
 Professional UI
 ```
-📂 Project Structure
+## 📂 Project Structure
 
 ```text
 
@@ -132,24 +132,25 @@ aplinode-clone/
 ├── vite.config.js
 └── README.md
 ```
-``` 💻 Run Locally
+## 💻 Run Locally
+
+``` text
 git clone https://github.com/Faizan-khan144/aplinode-clone.git
-
 cd aplinode-clone
-
 npm install
-
 npm run dev
-```
-```For a production build:
 
+For a production build:
 npm run build
 ```
-🌐 Live Demo
+
+## 🌐 Live Demo
+
 <div align="center">
 🚀 Open Aplinode Clone
 </div>
-🎯 Purpose
+
+##🎯 Purpose
 
 This project was created to:
 
@@ -161,14 +162,18 @@ Practice React routing
 Implement animations and interactions
 Understand real-world frontend workflows
 Deploy a React application using GitHub Pages
-👨‍💻 Developer
+
+
+## 👨‍💻 Developer
 <div align="center">
 Muhammad Faizan Khan
 
 Frontend Developer · MERN Stack Learner · AI with Python Learner
 
 <br> <a href="https://github.com/Faizan-khan144"> <img src="https://img.shields.io/badge/GitHub-Faizan--khan144-111827?style=for-the-badge&logo=github" /> </a> <a href="https://www.linkedin.com/in/muhammad-faizan-khan-76513041a/"> <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin" /> </a> </div>
-⚠️ Disclaimer
+
+
+## ⚠️ Disclaimer
 
 This project is an independent frontend recreation created for educational and portfolio purposes.
 
